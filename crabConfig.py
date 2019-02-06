@@ -26,7 +26,8 @@ config.Data.unitsPerJob = 1
 #config.Data.publication = True
 # This string is used to construct the output dataset name
 #config.Data.publishDataName = 'CRAB3-tutorial'
-config.Data.outLFNDirBase = '/store/group/phys_smp/skaur/'
+config.Data.outLFNDirBase = '/afs/cern.ch/work/s/swuycken/'
+#config.Data.outLFNDirBase = '/store/group/phys_smp/skaur/'
 #config.Data.ignoreLocality = True
 
 # These values only make sense for processing data
