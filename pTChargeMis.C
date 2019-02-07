@@ -356,8 +356,7 @@ void pTChargeMis(string algo=""){
 
 
 		// Define the Canvas
-		TCanvas *c1 = new TCanvas("c", "canvas",0,0, 700,550);
-		c1->Range(0,0,1,1);
+		TCanvas *c1 = new TCanvas("c", "canvas", 700,550);
 
 		//c->SetLogy();
 
@@ -379,76 +378,26 @@ void pTChargeMis(string algo=""){
 		h5MC->Sumw2();
 		h5MC->Divide(ptMCTunePNum,ptMCDen ,1,1,"B");
 
-		// Bottom plot
-		TPad *c1_1 = new TPad("c1_1", "newpad",0.01,0.01,0.99,0.32);
-		c1_1->SetGridx();
-		c1_1->Draw();
-		c1_1->cd();
-		c1_1->SetTopMargin(0.01);
-		c1_1->SetBottomMargin(0.3);
-		c1_1->SetRightMargin(0.1);
-		c1_1->SetFillStyle(0);
-		//////////////////////////////////////////
-		/////////////////RATIO DATA/MC////////////
-		//////////////////////////////////////////
-		// Create ratio histogram
-		//float defaultRatioYmin = 0.50;
-		//float defaultRatioYmax = 1.02;
-
-		TH1F* hist1_over_hist2 = (TH1F*)h5->Clone();
-		TH1F* denMC  = (TH1F*)h5MC->Clone();
-
-		hist1_over_hist2->Divide(denMC);
-		hist1_over_hist2->Draw("");
-		//hist1_over_hist2->SetLineWidth(1);
-		hist1_over_hist2->SetLineColor(kBlack);
-		//hist1_over_hist2->SetMinimum(defaultRatioYmin);
-		//hist1_over_hist2->SetMaximum(defaultRatioYmax);
-		hist1_over_hist2->GetYaxis()->SetNdivisions(5);
-		//hist1_over_hist2->SetTitle(";"+xTitle+";"+yTitle2);
-		hist1_over_hist2->GetXaxis()->SetTitle(titleX.c_str());
-		hist1_over_hist2->GetYaxis()->SetTitle("Data/MC");
-		hist1_over_hist2->SetStats(0);
-
-
-		hist1_over_hist2->GetXaxis()->SetTitleSize(0.14);
-		hist1_over_hist2->GetXaxis()->SetLabelSize(0.14);
-		hist1_over_hist2->GetYaxis()->SetLabelSize(0.11);
-		hist1_over_hist2->GetYaxis()->SetTitleSize(0.14);
-		hist1_over_hist2->GetYaxis()->SetTitleOffset(0.28);
-
-
-		// End bottom plot
-
-		// Top Plot
-		c1->cd();
-		TPad *c1_2 = new TPad("c1_2", "newpad",0.01,0.33,0.99,0.99);
-		c1_2->SetGridx();
-		c1_2->Draw(); 
-		c1_2->cd();
-		c1_2->SetTopMargin(0.1);
-		c1_2->SetBottomMargin(0.01);
-		c1_2->SetRightMargin(0.1);
-		c1_1->SetFillStyle(0);
-
+		
+		
 		h5->SetMarkerColor(kBlue);
 		h5->SetLineColor(kBlue);
-		h5->SetMarkerStyle(21);
+		h5->SetMarkerStyle(20);
+		h5->GetXaxis()->SetTitleSize(0.05);
+		h5->GetXaxis()->SetTitle(titleX.c_str());
+		h5->GetXaxis()->SetTitleOffset(0.91);
 		// No statistics on lower plot
 		h5->GetYaxis()->SetTitle("Prob. of misidentification");
 		// X axis ratio plot settings
-		h5->GetYaxis()->SetTitleSize(0.06);
-		h5->GetYaxis()->SetLabelSize(0.05);
+		h5->GetYaxis()->SetTitleSize(0.048);
 
-		h5->GetYaxis()->SetTitleOffset(0.9);
+		h5->GetYaxis()->SetTitleOffset(1.1);
 		h5->GetYaxis()->SetRangeUser(0,0.006);
-		h5->SetLabelSize(0.0);
-  		h5->GetXaxis()->SetTitleSize(0.00);
 
 		h5->Draw("E0");       // Draw the ratio plot
 		h5MC->SetMarkerColor(kBlue-9);
 		h5MC->SetLineColor(kBlue-9);
-		h5MC->SetMarkerStyle(25);
+		h5MC->SetMarkerStyle(24);
 		h5MC->Draw("E0 SAME");       // Draw the ratio plot
 
 
