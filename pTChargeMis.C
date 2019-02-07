@@ -399,7 +399,7 @@ void pTChargeMis(string algo=""){
 		TH1F* denMC  = (TH1F*)h5MC->Clone();
 
 		hist1_over_hist2->Divide(denMC);
-		hist1_over_hist2->Draw("Same");
+		hist1_over_hist2->Draw("");
 		//hist1_over_hist2->SetLineWidth(1);
 		hist1_over_hist2->SetLineColor(kBlack);
 		//hist1_over_hist2->SetMinimum(defaultRatioYmin);
@@ -415,7 +415,7 @@ void pTChargeMis(string algo=""){
 		hist1_over_hist2->GetXaxis()->SetLabelSize(0.14);
 		hist1_over_hist2->GetYaxis()->SetLabelSize(0.11);
 		hist1_over_hist2->GetYaxis()->SetTitleSize(0.14);
-		hist1_over_hist2->GetYaxis()->SetTitleOffset(0.25);
+		hist1_over_hist2->GetYaxis()->SetTitleOffset(0.28);
 
 
 		// End bottom plot
@@ -440,7 +440,7 @@ void pTChargeMis(string algo=""){
 		h5->GetYaxis()->SetTitleSize(0.06);
 		h5->GetYaxis()->SetLabelSize(0.05);
 
-		h5->GetYaxis()->SetTitleOffset(1.1);
+		h5->GetYaxis()->SetTitleOffset(0.9);
 		h5->GetYaxis()->SetRangeUser(0,0.006);
 		h5->SetLabelSize(0.0);
   		h5->GetXaxis()->SetTitleSize(0.00);
