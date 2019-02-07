@@ -32,9 +32,6 @@
 
 //my interesting variables 
 
-float pt[n_tracks][n_track_pos];
-short charge[n_tracks][n_track_pos];
-
 float unprop_pt[n_tracks][n_track_pos];
 short unprop_charge[n_tracks][n_track_pos];
 
@@ -48,69 +45,100 @@ ushort strip_layers[n_tracks][n_track_pos];
 //Declaration of hitsogramm i plan to plot with this code
 float bins[]={50,100,200,400,1000,2000};
 
+
 int binnum = 5;
 
 
 
 //Charge confusion rate - data
-TH1F *pthistoGlbUP =new TH1F("pthistoGlb","",binnum,bins);
-TH1F *pthistoGlbLOW =new TH1F("pthistoGlbLOW","",binnum,bins);
+//
+//Denominateur
+//
+TH1F *ptDataDen =new TH1F("ptDataDen","",binnum,bins);
 
-TH1F *pthistoTkonlyUP =new TH1F("pthistoTkonly","",binnum,bins);
-TH1F *pthistoTkonlyLOW =new TH1F("pthistoTkonlyLOW","",binnum,bins);
+//Numerateur
+TH1F *ptDataGlbNum =new TH1F("ptDataGlbNum","",binnum,bins);
 
-TH1F *pthistoTpfmsUP =new TH1F("pthistoTpfms","",binnum,bins);
-TH1F *pthistoTpfmsLOW =new TH1F("pthistoTpfmsLOW","",binnum,bins);
+TH1F *ptDataTkonlyNum =new TH1F("ptDataTkonlyNum","",binnum,bins);
 
-TH1F *pthistoPickyUP =new TH1F("pthistoPicky","",binnum,bins);
-TH1F *pthistoPickyLOW =new TH1F("pthistoPickyLOW","",binnum,bins);
+TH1F *ptDataTpfmsNum =new TH1F("ptDataTpfmsNum","",binnum,bins);
 
-TH1F *pthistoDYTUP =new TH1F("pthistoDYT","",binnum,bins);
-TH1F *pthistoDYTLOW =new TH1F("pthistoDYTLOW","",binnum,bins);
+TH1F *ptDataPickyNum =new TH1F("ptDataPickyNum","",binnum,bins);
 
-TH1F *pthistoTunePUP =new TH1F("pthistoTuneP","",binnum,bins);
-TH1F *pthistoTunePLOW =new TH1F("pthistoTunePLOW","",binnum,bins);
+TH1F *ptDataDYTNum =new TH1F("ptDataDYTNum","",binnum,bins);
+
+TH1F *ptDataTunePNum =new TH1F("ptDataTunePNum","",binnum,bins);
+
+//Charge confusion rate - MC
+//
+//Denominateur
+//
+TH1F *ptMCDen =new TH1F("ptMCDen","",binnum,bins);
+
+//Numerateur
+TH1F *ptMCGlbNum =new TH1F("ptMCGlbNum","",binnum,bins);
+
+TH1F *ptMCTkonlyNum =new TH1F("ptMCTkonlyNum","",binnum,bins);
+
+TH1F *ptMCTpfmsNum =new TH1F("ptMCTpfmsNum","",binnum,bins);
+
+TH1F *ptMCPickyNum =new TH1F("ptMCPickyNum","",binnum,bins);
+
+TH1F *ptMCDYTNum =new TH1F("ptMCDYTNum","",binnum,bins);
+
+TH1F *ptMCTunePNum =new TH1F("ptMCTunePNum","",binnum,bins);
+
+//
 //Charge confusion rate - 1bin
-/*TH1F *pthistoGlbUP =new TH1F("pthistoGlb","",1,10,2000);
-  TH1F *pthistoGlbLOW =new TH1F("pthistoGlbLOW","",1,10,2000);
+/*TH1F *ptDataDen =new TH1F("pthistoGlb","",1,10,2000);
+  TH1F *ptDataGlbNum =new TH1F("ptDataGlbNum","",1,10,2000);
 
-  TH1F *pthistoTkonlyUP =new TH1F("pthistoTkonly","",1,10,2000);
-  TH1F *pthistoTkonlyLOW =new TH1F("pthistoTkonlyLOW","",1,10,2000);
+  TH1F *ptDataDen =new TH1F("pthistoTkonly","",1,10,2000);
+  TH1F *ptDataTkonlyNum =new TH1F("ptDataTkonlyNum","",1,10,2000);
 
   TH1F *pthistoTpfmsUP =new TH1F("pthistoTpfms","",1,10,2000);
-  TH1F *pthistoTpfmsLOW =new TH1F("pthistoTpfmsLOW","",1,10,2000);
+  TH1F *ptDataTpfmsNum =new TH1F("ptDataTpfmsNum","",1,10,2000);
 
   TH1F *pthistoPickyUP =new TH1F("pthistoPicky","",1,10,2000);
-  TH1F *pthistoPickyLOW =new TH1F("pthistoPickyLOW","",1,10,2000);
+  TH1F *ptDataPickyNum =new TH1F("ptDataPickyNum","",1,10,2000);
 
   TH1F *pthistoDYTUP =new TH1F("pthistoDYT","",1,10,2000);
-  TH1F *pthistoDYTLOW =new TH1F("pthistoDYTLOW","",1,10,2000);
+  TH1F *ptDataDYTNum =new TH1F("ptDataDYTNum","",1,10,2000);
 
   TH1F *pthistoTunePUP =new TH1F("pthistoTuneP","",1,10,2000);
-  TH1F *pthistoTunePLOW =new TH1F("pthistoTunePLOW","",1,10,2000);*/
+  TH1F *ptDataTunePNum =new TH1F("ptDataTunePNum","",1,10,2000);*/
 
-//Begining of teh function
+//Begining of the function
+//
+//
 void pTChargeMis(string algo=""){
 
 
 	// the next line is to link the tree you have
 
 	TChain *treedata = new TChain("UTpickedTracks/t");
+	TChain *treeMC = new TChain("UTpickedTracks/t");
 
 	// this is the root file you have input with your tree inside
-	treedata->Add("cosmics_2018_test.root");
+	treedata->Add("ROOT_Files/allVersions/cosmic_data_16_17.root");
+	treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
 
 	// the following lines are to extract the branch of the trees, when there is a & it means that there is only one entry per event, like for run, lumi, event, dilepton mass in my case for DY events.
-	treedata->SetBranchAddress("charge",charge);
-	treedata->SetBranchAddress("pt",pt);
 	treedata->SetBranchAddress("unprop_charge",unprop_charge);
 	treedata->SetBranchAddress("unprop_pt",unprop_pt);
 	treedata->SetBranchAddress("pixel_hits",pixel_hits);
 	treedata->SetBranchAddress("strip_layers",strip_layers);
+	treeMC->SetBranchAddress("unprop_charge",unprop_charge);
+	treeMC->SetBranchAddress("unprop_pt",unprop_pt);
+	treeMC->SetBranchAddress("pixel_hits",pixel_hits);
+	treeMC->SetBranchAddress("strip_layers",strip_layers);
 
 	// This will get the numbers of entries of the tree.
 
 	int nentries = treedata->GetEntries();
+	int nentriesMC = treeMC->GetEntries();
+
+
 	int selectedEvents = 0;
 	cout << "nEntries = " << nentries << endl;
 
@@ -124,8 +152,9 @@ void pTChargeMis(string algo=""){
 	Float_t wrongCharge_TuneP = 0.;
 
 	int algoNum=0;
+
 	string titleX = string("p_{t} [GeV]-")+algo+ string(" lower leg tag");
-	string title = algo+ string(" lower leg tag");
+	string title = algo + string(" lower leg tag");
 
 	if (algo == "Glb") algoNum=0;
 	if (algo == "Tkonly") algoNum=2;
@@ -140,118 +169,177 @@ void pTChargeMis(string algo=""){
 		// this loop over all the events in your tree
 
 		treedata->GetEntry(p);
-		cout << "entry = " << p << endl;
-		//
-		//
-		//selection cuts - LOWER LEG TAG
+
+
+		//******************************//	
+		//selection cuts - LOWER LEG TAG//
+		//******************************//
+
 		if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][1]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][1]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][1]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][1]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][1]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
 
-		selectedEvents+=1;
-			//Algorithm choice
+			selectedEvents+=1;
+
+			//Fill Denominateur with events who passed the selection	
+			ptDataDen->Fill(unprop_pt[algoNum][1]);
+
+
 
 			//global
-			pthistoGlbUP->Fill(unprop_pt[algoNum][1]);
-			if (charge[0][0]!=charge[algoNum][1]){ 
-				pthistoGlbLOW->Fill(unprop_pt[algoNum][1]);
+			if (unprop_charge[0][0]!=unprop_charge[algoNum][1]){ 
+				//Fill Numerateur with events with misidentified charge
+				ptDataGlbNum->Fill(unprop_pt[algoNum][1]);
 				wrongCharge_Glb++;
 			}
 			//Tkonly
-			pthistoTkonlyUP->Fill(unprop_pt[algoNum][1]);
-			if (charge[2][0]!=charge[algoNum][1]){ 
-				pthistoTkonlyLOW->Fill(unprop_pt[algoNum][1]);
+			if (unprop_charge[2][0]!=unprop_charge[algoNum][1]){ 
+				ptDataTkonlyNum->Fill(unprop_pt[algoNum][1]);
 				wrongCharge_Tkonly++;
 
 			}
 			//Tpfms
-			pthistoTpfmsUP->Fill(unprop_pt[algoNum][1]);
-			if (charge[3][0]!=charge[algoNum][1]){ 
-				pthistoTpfmsLOW->Fill(unprop_pt[algoNum][1]);
+			if (unprop_charge[3][0]!=unprop_charge[algoNum][1]){ 
+				ptDataTpfmsNum->Fill(unprop_pt[algoNum][1]);
 				wrongCharge_TPFMS++;
 
 			}
 			//Picky
-			pthistoPickyUP->Fill(unprop_pt[algoNum][1]);
-			if (charge[4][0]!=charge[algoNum][1]){ 
-				pthistoPickyLOW->Fill(unprop_pt[algoNum][1]);
+			if (unprop_charge[4][0]!=unprop_charge[algoNum][1]){ 
+				ptDataPickyNum->Fill(unprop_pt[algoNum][1]);
 				wrongCharge_Picky++;
 
 			}
 			//DYT
-			pthistoDYTUP->Fill(unprop_pt[algoNum][1]);
-			if (charge[5][0]!=charge[algoNum][1]){ 
-				pthistoDYTLOW->Fill(unprop_pt[algoNum][1]);
+			if (unprop_charge[5][0]!=unprop_charge[algoNum][1]){ 
+				ptDataDYTNum->Fill(unprop_pt[algoNum][1]);
 				wrongCharge_DYT++;
 
 			}
 			//TuneP
-			pthistoTunePUP->Fill(unprop_pt[algoNum][1]);
-			if (charge[8][0]!=charge[algoNum][1]){ 
-				pthistoTunePLOW->Fill(unprop_pt[algoNum][1]);
+			if (unprop_charge[8][0]!=unprop_charge[algoNum][1]){ 
+				ptDataTunePNum->Fill(unprop_pt[algoNum][1]);
 				wrongCharge_TuneP++;
 			}
 
 
-			//selection cuts - UPPER LEG TAG
+
+
+
+			//******************************//	
+			//selection cuts - UPPER LEG TAG//
+			//******************************//
+
 			/*if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][0]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][0]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][0]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][0]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][0]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][0]>30.){
 
 
-			//Algorithm choice
+			//Fill Denominateur with events who passed the selection	
+			ptDataDen->Fill(unprop_pt[algoNum][0]);
+
+			////////////////////
+			//Algorithm choice//
+			////////////////////
 
 			//global
-			pthistoGlbUP->Fill(unprop_pt[algoNum][0]);
-			if (charge[0][1]!=charge[algoNum][0]){ 
-			diffPt_Glb=(unprop_pt[0][0]-unprop_pt[algoNum][1])/unprop_pt[algoNum][1];
-			hdiffPt_Glb->Fill(diffPt_Glb);
-			pthistoGlbLOW->Fill(unprop_pt[algoNum][0]);
+			if (unprop_charge[0][1]!=unprop_charge[algoNum][0]){ 
+			ptDataGlbNum->Fill(unprop_pt[algoNum][0]);
 			wrongCharge_Glb++;
 			}
 			//Tkonly
-			pthistoTkonlyUP->Fill(unprop_pt[algoNum][0]);
-			if (charge[2][1]!=charge[algoNum][0]){ 
-			diffPt_Tkonly=(unprop_pt[2][0]-unprop_pt[algoNum][1])/unprop_pt[algoNum][1];
-			hdiffPt_Tkonly->Fill(diffPt_Tkonly);
-			pthistoTkonlyLOW->Fill(unprop_pt[algoNum][0]);
+			if (unprop_charge[2][1]!=unprop_charge[algoNum][0]){ 
+			ptDataTkonlyNum->Fill(unprop_pt[algoNum][0]);
 			wrongCharge_Tkonly++;
 
 			}
 			//Tpfms
-			pthistoTpfmsUP->Fill(unprop_pt[algoNum][0]);
-			if (charge[3][1]!=charge[algoNum][0]){ 
-			diffPt_Tpfms=(unprop_pt[3][0]-unprop_pt[algoNum][1])/unprop_pt[algoNum][1];
-			hdiffPt_Tpfms->Fill(diffPt_TPFMS);
-			pthistoTpfmsLOW->Fill(unprop_pt[algoNum][0]);
+			if (unprop_charge[3][1]!=unprop_charge[algoNum][0]){ 
+			ptDataTpfmsNum->Fill(unprop_pt[algoNum][0]);
 			wrongCharge_TPFMS++;
 
 			}
 			//Picky
-			pthistoPickyUP->Fill(unprop_pt[algoNum][0]);
-			if (charge[4][1]!=charge[algoNum][0]){ 
-			diffPt_Picky=(unprop_pt[4][0]-unprop_pt[algoNum][1])/unprop_pt[algoNum][1];
-			hdiffPt_Picky->Fill(diffPt_Picky);
-			pthistoPickyLOW->Fill(unprop_pt[algoNum][0]);
+			if (unprop_charge[4][1]!=unprop_charge[algoNum][0]){ 
+			ptDataPickyNum->Fill(unprop_pt[algoNum][0]);
 			wrongCharge_Picky++;
 
 			}
 			//DYT
-			pthistoDYTUP->Fill(unprop_pt[algoNum][0]);
-			if (charge[5][1]!=charge[algoNum][0]){ 
-			diffPt_DYT=(unprop_pt[5][0]-unprop_pt[algoNum][1])/unprop_pt[algoNum][1];
-			hdiffPt_DYT->Fill(diffPt_DYT);
-			pthistoDYTLOW->Fill(unprop_pt[algoNum][0]);
+			if (unprop_charge[5][1]!=unprop_charge[algoNum][0]){ 
+			ptDataDYTNum->Fill(unprop_pt[algoNum][0]);
 			wrongCharge_DYT++;
 
 			}
 			//TuneP
-			pthistoTunePUP->Fill(unprop_pt[algoNum][0]);
-			if (charge[8][1]!=charge[algoNum][0]){ 
-			diffPt_TuneP=(unprop_pt[8][0]-unprop_pt[algoNum][1])/unprop_pt[algoNum][1];
-			hdiffPt_TuneP->Fill(diffPt_TuneP);
-			pthistoTunePLOW->Fill(unprop_pt[algoNum][0]);
+			if (unprop_charge[8][1]!=unprop_charge[algoNum][0]){ 
+			ptDataTunePNum->Fill(unprop_pt[algoNum][0]);
 			wrongCharge_TuneP++;
-			}*/
-
+			}
+			*/
 		}
 		}// end loop p
+
+		/************************************************************/
+		/*                    MC                                    */
+		/************************************************************/
+
+		for ( int p=0; p<nentriesMC ;p++){
+		// this loop over all the events in your tree
+
+		treeMC->GetEntry(p);
+
+
+		//******************************//	
+		//selection cuts - LOWER LEG TAG//
+		//******************************//
+
+		if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][1]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][1]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][1]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][1]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][1]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
+
+			//Fill Denominateur with events who passed the selection	
+			ptMCDen->Fill(unprop_pt[algoNum][1]);
+
+
+
+			//global
+			if (unprop_charge[0][0]!=unprop_charge[algoNum][1]){ 
+				//Fill Numerateur with events with misidentified charge
+				ptMCGlbNum->Fill(unprop_pt[algoNum][1]);
+				wrongCharge_Glb++;
+			}
+			//Tkonly
+			if (unprop_charge[2][0]!=unprop_charge[algoNum][1]){ 
+				ptMCTkonlyNum->Fill(unprop_pt[algoNum][1]);
+				wrongCharge_Tkonly++;
+
+			}
+			//Tpfms
+			if (unprop_charge[3][0]!=unprop_charge[algoNum][1]){ 
+				ptMCTpfmsNum->Fill(unprop_pt[algoNum][1]);
+				wrongCharge_TPFMS++;
+
+			}
+			//Picky
+			if (unprop_charge[4][0]!=unprop_charge[algoNum][1]){ 
+				ptMCPickyNum->Fill(unprop_pt[algoNum][1]);
+				wrongCharge_Picky++;
+
+			}
+			//DYT
+			if (unprop_charge[5][0]!=unprop_charge[algoNum][1]){ 
+				ptMCDYTNum->Fill(unprop_pt[algoNum][1]);
+				wrongCharge_DYT++;
+
+			}
+			//TuneP
+			if (unprop_charge[8][0]!=unprop_charge[algoNum][1]){ 
+				ptMCTunePNum->Fill(unprop_pt[algoNum][1]);
+				wrongCharge_TuneP++;
+			}
+
+		}
+
+}
+
+
+
+
 		/*cout << "Tag given by " << algo << "lower leg" << endl;
 		  cout << "Events with wrong charge for the 6 algorithms :" << endl;
 		  cout << "Global wrong charge = " << wrongCharge_Glb << endl;
@@ -260,61 +348,141 @@ void pTChargeMis(string algo=""){
 		  cout << "Picky wrong charge = " << wrongCharge_Picky << endl;
 		  cout << "DYT wrong charge = " << wrongCharge_DYT << endl;
 		  cout << "TuneP wrong charge = " << wrongCharge_TuneP << endl;*/
+
+
 		cout << "Selected events = " << selectedEvents << endl;
 		Float_t wrongCharge[6] = {wrongCharge_Glb,wrongCharge_Tkonly,wrongCharge_TPFMS,wrongCharge_Picky,wrongCharge_DYT,wrongCharge_TuneP};
+
+
+
 		// Define the Canvas
-		TCanvas *c = new TCanvas("c", "canvas", 700,550);
+		TCanvas *c1 = new TCanvas("c", "canvas",0,0, 700,550);
+		c1->Range(0,0,1,1);
+
 		//c->SetLogy();
 
-		
-	
-		// Define the ratio plot
+
+
+		//////////////////////////////////////
+		//            TuneP  only           //
+		//////////////////////////////////////
 		//
-		//
-		//TuneP
-		//
-		// Define the ratio plot
-		/*TH1F *h5 = (TH1F*)pthistoTunePUP->Clone("h5");
-		h5->SetLineColor(kBlue);
+		/////////////////DATA/////////////////
+		TH1F *h5 = (TH1F*)ptDataDen->Clone("h5");
 		h5->Sumw2();
-		h5->SetMarkerColor(kBlue);
-
 		h5->SetStats(11111);      // No statistics on lower plot
-		h5->Divide(pthistoTunePLOW,pthistoTunePUP ,1,1,"B");
+		h5->Divide(ptDataTunePNum,ptDataDen ,1,1,"B");
+
+		/////////////////////////////////////////
+		//////////////////MC/////////////////////
+		TH1F *h5MC = (TH1F*)ptMCDen->Clone("h5MC");
+		h5MC->Sumw2();
+		h5MC->Divide(ptMCTunePNum,ptMCDen ,1,1,"B");
+
+		// Bottom plot
+		TPad *c1_1 = new TPad("c1_1", "newpad",0.01,0.01,0.99,0.32);
+		c1_1->SetGridx();
+		c1_1->Draw();
+		c1_1->cd();
+		c1_1->SetTopMargin(0.01);
+		c1_1->SetBottomMargin(0.3);
+		c1_1->SetRightMargin(0.1);
+		c1_1->SetFillStyle(0);
+		//////////////////////////////////////////
+		/////////////////RATIO DATA/MC////////////
+		//////////////////////////////////////////
+		// Create ratio histogram
+		//float defaultRatioYmin = 0.50;
+		//float defaultRatioYmax = 1.02;
+
+		TH1F* hist1_over_hist2 = (TH1F*)h5->Clone();
+		TH1F* denMC  = (TH1F*)h5MC->Clone();
+
+		hist1_over_hist2->Divide(denMC);
+		hist1_over_hist2->Draw("Same");
+		//hist1_over_hist2->SetLineWidth(1);
+		hist1_over_hist2->SetLineColor(kBlack);
+		//hist1_over_hist2->SetMinimum(defaultRatioYmin);
+		//hist1_over_hist2->SetMaximum(defaultRatioYmax);
+		hist1_over_hist2->GetYaxis()->SetNdivisions(5);
+		//hist1_over_hist2->SetTitle(";"+xTitle+";"+yTitle2);
+		hist1_over_hist2->GetXaxis()->SetTitle(titleX.c_str());
+		hist1_over_hist2->GetYaxis()->SetTitle("Data/MC");
+		hist1_over_hist2->SetStats(0);
 
 
-		h5->SetMarkerStyle(25);
-		h5->Draw("E0 SAME");       // Draw the ratio plot
+		hist1_over_hist2->GetXaxis()->SetTitleSize(0.14);
+		hist1_over_hist2->GetXaxis()->SetLabelSize(0.14);
+		hist1_over_hist2->GetYaxis()->SetLabelSize(0.11);
+		hist1_over_hist2->GetYaxis()->SetTitleSize(0.14);
+		hist1_over_hist2->GetYaxis()->SetTitleOffset(0.25);
+
+
+		// End bottom plot
+
+		// Top Plot
+		c1->cd();
+		TPad *c1_2 = new TPad("c1_2", "newpad",0.01,0.33,0.99,0.99);
+		c1_2->SetGridx();
+		c1_2->Draw(); 
+		c1_2->cd();
+		c1_2->SetTopMargin(0.1);
+		c1_2->SetBottomMargin(0.01);
+		c1_2->SetRightMargin(0.1);
+		c1_1->SetFillStyle(0);
+
+		h5->SetMarkerColor(kBlue);
+		h5->SetLineColor(kBlue);
+		h5->SetMarkerStyle(21);
 		// No statistics on lower plot
 		h5->GetYaxis()->SetTitle("Prob. of misidentification");
 		// X axis ratio plot settings
-		h5->GetXaxis()->SetTitleSize(0.05);
-		h5->GetXaxis()->SetTitle(titleX.c_str());
-		h5->GetXaxis()->SetTitleOffset(0.91);
-		h5->GetYaxis()->SetTitleSize(0.05);
+		h5->GetYaxis()->SetTitleSize(0.06);
+		h5->GetYaxis()->SetLabelSize(0.05);
+
 		h5->GetYaxis()->SetTitleOffset(1.1);
-		//h5->GetYaxis()->SetRangeUser(0,0.018);
-		h5->GetXaxis()->SetTitle("Pt-TuneP lower leg tag");
-		//h5->GetXaxis()->SetTitle("Pt-TuneP lower leg tag");
+		h5->GetYaxis()->SetRangeUser(0,0.006);
+		h5->SetLabelSize(0.0);
+  		h5->GetXaxis()->SetTitleSize(0.00);
 
-		float TunePBin =  h5->GetBinContent(1);
-		cout << "Charge rate - TuneP : " << TunePBin << endl;
+		h5->Draw("E0");       // Draw the ratio plot
+		h5MC->SetMarkerColor(kBlue-9);
+		h5MC->SetLineColor(kBlue-9);
+		h5MC->SetMarkerStyle(25);
+		h5MC->Draw("E0 SAME");       // Draw the ratio plot
 
 
-		TLegend * leg0 = new TLegend(0.75, 0.56, 0.98, 0.76);
-		//leg0->SetHeader("MC total");
-		leg0->SetHeader("2018 data");
-		leg0->SetFillColor(10);
-		leg0->AddEntry(h5,"TuneP");
+		//////////////////////////////////////////////////////////
+		/////////////LEGEND///////////////////////////////////////
+		//////////////////////////////////////////////////////////
+		TLegend * legData = new TLegend(0.75, 0.67, 0.98, 0.77);
+		legData->SetHeader("Data 2016+2017");
+		legData->SetFillColor(10);
+		legData->AddEntry(h5,"TuneP");
+		legData -> Draw();
 
-		leg0 -> Draw();*/
-		TH1F *h0 = (TH1F*)pthistoGlbUP->Clone("h0");
-		  h0->SetLineColor(kBlack);
-		  h0->Sumw2();
-		  h0->SetStats(111111);      // No statistics on lower plot
-		  h0->Divide(pthistoGlbLOW,pthistoGlbUP ,1,1,"B");
-		  h0->SetMarkerStyle(21);
-		  h0->SetMarkerColor(kBlack);
+		TLegend * legMC = new TLegend(0.75, 0.57, 0.98, 0.67);
+		legMC->SetHeader("MC 2016");
+		legMC->SetFillColor(10);
+		legMC->AddEntry(h5MC,"TuneP");
+		legMC -> Draw();
+
+		/*
+
+		///////////////////////////////////////////
+		//            ALL ALGOS			 //
+		///////////////////////////////////////////
+		//
+		//////////////////////////////////////////
+		//GLOBAL
+		//////////////////////////////////////////
+		TH1F *h0 = (TH1F*)ptDataDen->Clone("h0");
+		h0->SetLineColor(kBlack);
+		h0->Sumw2();
+		h0->SetStats(111111);      
+		h0->Divide(ptDataGlbNum,ptDataDen ,1,1,"B");
+		h0->SetMarkerStyle(21);
+		h0->SetMarkerColor(kBlack);
 		//h0->GetYaxis()->SetTitleOffset(1.2);
 		h0->Draw("E0");       // Draw the ratio plot
 		// Y axis ratio plot settings
@@ -325,143 +493,109 @@ void pTChargeMis(string algo=""){
 		h0->GetXaxis()->SetTitleOffset(0.91);
 		h0->GetYaxis()->SetTitleSize(0.05);
 		h0->GetYaxis()->SetTitleOffset(1.1);
-		h0->GetYaxis()->SetRangeUser(0,0.02);
-		h0->GetXaxis()->SetTitle("Pt-TuneP lower leg tag");
-		//h0->GetXaxis()->SetTitle("Pt-TuneP upper leg tag");
+		h0->GetYaxis()->SetRangeUser(0,0.05);
+		//h0->GetXaxis()->SetTitle("Pt-TuneP lower leg tag");
+		h0->GetXaxis()->SetTitle("Pt-TuneP upper leg tag");
 
 		float glbBin =  h0->GetBinContent(1);
-		cout << "Charge rate - glb : " << glbBin << endl;
+		//cout << "Charge rate - glb : " << glbBin << endl;
 
+		/////////////////////////////////////////////////
+		//Tkonly
+		////////////////////////////////////////////////
 
-		TH1F *h1 = (TH1F*)pthistoTkonlyUP->Clone("h1");
+		TH1F *h1 = (TH1F*)ptDataDen->Clone("h1");
 		h1->SetLineColor(kRed);
 		h1->Sumw2();
 		h1->SetStats(0);      // No statistics on lower plot
-		h1->Divide(pthistoTkonlyLOW,pthistoTkonlyUP ,1,1,"B");
+		h1->Divide(ptDataTkonlyNum,ptDataDen ,1,1,"B");
 		h1->SetMarkerStyle(22);
 		h1->SetMarkerColor(kRed);
 		float TkonlyBin =  h1->GetBinContent(1);
-		cout << "Charge rate - Tkonly : " << TkonlyBin << endl;
+		//cout << "Charge rate - Tkonly : " << TkonlyBin << endl;
 
-		h1->Draw("E0 SAME");       // Draw the ratio plot
+		h1->Draw("E0 SAME");      // Draw the ratio plot
 
-		TH1F *h2 = (TH1F*)pthistoTpfmsUP->Clone("h2");
+		/////////////////////////////////////////////////
+		//TPFMS
+		/////////////////////////////////////////////////
+
+		TH1F *h2 = (TH1F*)ptDataDen->Clone("h2");
 		h2->SetLineColor(kOrange);
 		h2->Sumw2();
 		h2->SetStats(0);      // No statistics on lower plot
-		h2->Divide(pthistoTpfmsLOW,pthistoTpfmsUP ,1,1,"B");
+		h2->Divide(ptDataTpfmsNum,ptDataDen ,1,1,"B");
 		h2->SetMarkerStyle(20);
 		h2->SetMarkerColor(kOrange);
 		float TpfmsBin =  h2->GetBinContent(1);
-		cout << "Charge rate - TPFMS : " << TpfmsBin << endl;
+		//cout << "Charge rate - TPFMS : " << TpfmsBin << endl;
 
 		h2->Draw("E0 SAME");       // Draw the ratio plot
 
+		//////////////////////////////////////////////////
+		//Picky
+		//////////////////////////////////////////////////
 
-
-		TH1F *h3 = (TH1F*)pthistoPickyUP->Clone("h3");
+		TH1F *h3 = (TH1F*)ptDataDen->Clone("h3");
 		h3->SetLineColor(kMagenta);
 		h3->Sumw2();
 		h3->SetStats(0);      // No statistics on lower plot
-		h3->Divide(pthistoPickyLOW,pthistoPickyUP ,1,1,"B");
+		h3->Divide(ptDataPickyNum,ptDataDen ,1,1,"B");
 		h3->SetMarkerStyle(23);
 		h3->SetMarkerColor(kMagenta);
 		float PickyBin =  h3->GetBinContent(1);
-		cout << "Charge rate - Picky : " << PickyBin << endl;
+		//cout << "Charge rate - Picky : " << PickyBin << endl;
 
 		h3->Draw("E0 SAME");       // Draw the ratio plot
 
-
-		// Define the ratio plot
-		TH1F *h4 = (TH1F*)pthistoDYTUP->Clone("h4");
+		//////////////////////////////////////////////////
+		//DYT
+		//////////////////////////////////////////////////
+		TH1F *h4 = (TH1F*)ptDataDen->Clone("h4");
 		h4->SetLineColor(kGreen);
 		h4->Sumw2();
 		h4->SetStats(0);      // No statistics on lower plot
-		h4->Divide(pthistoDYTLOW,pthistoDYTUP ,1,1,"B");
+		h4->Divide(ptDataDYTNum,ptDataDen ,1,1,"B");
 		h4->SetMarkerStyle(24);
 		h4->SetMarkerColor(kGreen);
 		float DYTBin =  h4->GetBinContent(1);
-		cout << "Charge rate - DYT : " << DYTBin << endl;
+		//cout << "Charge rate - DYT : " << DYTBin << endl;
 
 		h4->Draw("E0 SAME");       // Draw the ratio plot
 
-		// Define the ratio plot
-		TH1F *h5 = (TH1F*)pthistoTunePUP->Clone("h5");
+		//////////////////////////////////////////////////
+		//TuneP
+		//////////////////////////////////////////////////
+
+		TH1F *h5 = (TH1F*)ptDataDen->Clone("h5");
 		h5->SetLineColor(kBlue);
 		h5->Sumw2();
 		h5->SetMarkerColor(kBlue);
 
 		h5->SetStats(0);      // No statistics on lower plot
-		h5->Divide(pthistoTunePLOW,pthistoTunePUP ,1,1,"B");
+		h5->Divide(ptDataTunePNum,ptDataDen,1,1,"B");
 
 		float TunePBin =  h5->GetBinContent(1);
-		cout << "Charge rate - TuneP : " << TunePBin << endl;
+		//cout << "Charge rate - TuneP : " << TunePBin << endl;
 
 		h5->SetMarkerStyle(25);
 		h5->Draw("E0 SAME");       // Draw the ratio plot
-		// No statistics on lower plot
 
+		///////////////////////////////////////////////////
 
 		TLegend * leg0 = new TLegend(0.75, 0.56, 0.98, 0.76);
-		//leg0->SetHeader("2016+2017 data");
-		leg0->SetHeader("MC total");
+		leg0->SetHeader("2016+2017 data");
+		//leg0->SetHeader("MC total");
 		leg0->SetFillColor(10);
 		leg0->AddEntry(h0,"Global ");
-		leg0->AddEntry(h1,"Tkonly");
+		//leg0->AddEntry(h1,"Tkonly");
 		leg0->AddEntry(h2,"TPFMS ");
-		leg0->AddEntry(h3,"Picky");
-		leg0->AddEntry(h4,"DYT ");
-		leg0->AddEntry(h5,"TuneP");
+		//leg0->AddEntry(h3,"Picky");
+		//leg0->AddEntry(h4,"DYT ");
+		//leg0->AddEntry(h5,"TuneP");
 
-		leg0 -> Draw();
+		leg0 -> Draw();*/
 
-			//TGraph
-
-			/*	Double_t x[6], y[6];
-				Int_t n = 6;
-				for (Int_t i=0;i<n;i++) {
-				x[i] = i+1;
-				y[i] = 	wrongCharge[i];
-				}
-
-
-
-				TGraph *gr = new TGraph(n,x,y);
-				gr->Draw("AB1");
-				gr->GetYaxis()->SetTitle("#events w/ wrong charge");
-			//gr->GetYaxis()->SetRangeUser(0,35);
-			gr->SetTitle("");
-
-			TLatex t(3.7,12,title.c_str());
-			t.DrawClone("Same");
-			TLatex t1(1,3,"Global");
-			t1.SetTextAngle(90);
-			t1.DrawClone("Same");	
-			TLatex t2(2,3,"Tkonly");
-			t2.SetTextAngle(90);
-			t2.DrawClone("Same");	
-			TLatex t3(3,3,"TPFMS");
-			t3.SetTextAngle(90);
-			t3.DrawClone("Same");	
-			TLatex t4(4,3,"Picky");
-			t4.SetTextAngle(90);
-			t4.DrawClone("Same");	
-			TLatex t5(5,3,"DYT");
-			t5.SetTextAngle(90);
-			t5.DrawClone("Same");	
-			TLatex t6(6,3,"TuneP");
-			t6.SetTextAngle(90);
-			t6.DrawClone("Same");	
-
-
-			Int_t ci;      // for color index setting
-			TColor *color; // for color definition with alpha
-			ci = TColor::GetColor("#333399");
-			gr->SetFillColor(ci);
-			gr->SetFillStyle(3001);
-			gr->SetMarkerStyle(3);
-
-			char const *algor[6]={"Glb","Tkonly","TPFMS","Picky","DYT","TuneP"};*/
 
 
 
