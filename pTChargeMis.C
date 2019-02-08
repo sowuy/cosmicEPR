@@ -120,7 +120,10 @@ void pTChargeMis(string algo=""){
 	TChain *treeMC = new TChain("UTpickedTracks/t");
 
 	// this is the root file you have input with your tree inside
-	treedata->Add("ROOT_Files/allVersions/cosmic_data_16_17.root");
+	treedata->Add("ROOT_Files/allVersions/cosmic_data_16_17_18.root");
+	//treedata->Add ("ROOT_Files/resolution_cosmics.root");
+	//treeMC->Add ("ROOT_Files/resolution_cosmics.root");
+
 	treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
 
 	// the following lines are to extract the branch of the trees, when there is a & it means that there is only one entry per event, like for run, lumi, event, dilepton mass in my case for DY events.
@@ -153,7 +156,7 @@ void pTChargeMis(string algo=""){
 
 	int algoNum=0;
 
-	string titleX = string("p_{t} [GeV]-")+algo+ string(" lower leg tag");
+	string titleX = string("p_{T} [GeV]-")+algo+ string(" upper leg tag");
 	string title = algo + string(" lower leg tag");
 
 	if (algo == "Glb") algoNum=0;
@@ -175,7 +178,7 @@ void pTChargeMis(string algo=""){
 		//selection cuts - LOWER LEG TAG//
 		//******************************//
 
-		if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][1]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][1]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][1]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][1]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][1]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
+		/*if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][1]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][1]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][1]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][1]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][1]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
 
 			selectedEvents+=1;
 
@@ -218,7 +221,7 @@ void pTChargeMis(string algo=""){
 			if (unprop_charge[8][0]!=unprop_charge[algoNum][1]){ 
 				ptDataTunePNum->Fill(unprop_pt[algoNum][1]);
 				wrongCharge_TuneP++;
-			}
+			}*/
 
 
 
@@ -228,7 +231,7 @@ void pTChargeMis(string algo=""){
 			//selection cuts - UPPER LEG TAG//
 			//******************************//
 
-			/*if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][0]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][0]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][0]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][0]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][0]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][0]>30.){
+			if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][0]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][0]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][0]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][0]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][0]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][0]>30.){
 
 
 			//Fill Denominateur with events who passed the selection	
@@ -272,7 +275,7 @@ void pTChargeMis(string algo=""){
 			ptDataTunePNum->Fill(unprop_pt[algoNum][0]);
 			wrongCharge_TuneP++;
 			}
-			*/
+			
 		}
 		}// end loop p
 
@@ -290,7 +293,7 @@ void pTChargeMis(string algo=""){
 		//selection cuts - LOWER LEG TAG//
 		//******************************//
 
-		if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][1]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][1]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][1]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][1]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][1]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
+		/*if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][1]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][1]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][1]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][1]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][1]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
 
 			//Fill Denominateur with events who passed the selection	
 			ptMCDen->Fill(unprop_pt[algoNum][1]);
@@ -333,7 +336,59 @@ void pTChargeMis(string algo=""){
 				wrongCharge_TuneP++;
 			}
 
+		}*/
+
+			//******************************//	
+			//selection cuts - UPPER LEG TAG//
+			//******************************//
+
+			if (pixel_hits[0][0]>=1 && strip_layers[0][0]>=5 && pixel_hits[0][1]>=1 && strip_layers[0][1]>=5 && unprop_pt[0][0]>30. && pixel_hits[2][0]>=1 && strip_layers[2][0]>=5 && pixel_hits[2][1]>=1 && strip_layers[2][1]>=5 && unprop_pt[2][0]>30. && pixel_hits[3][0]>=1 && strip_layers[3][0]>=5 && pixel_hits[3][1]>=1 && strip_layers[3][1]>=5 && unprop_pt[3][0]>30. && pixel_hits[4][0]>=1 && strip_layers[4][0]>=5 && pixel_hits[4][1]>=1 && strip_layers[4][1]>=5 && unprop_pt[4][0]>30. && pixel_hits[5][0]>=1 && strip_layers[5][0]>=5 && pixel_hits[5][1]>=1 && strip_layers[5][1]>=5 && unprop_pt[5][0]>30. && pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][0]>30.){
+
+
+			//Fill Denominateur with events who passed the selection	
+			ptMCDen->Fill(unprop_pt[algoNum][0]);
+
+			////////////////////
+			//Algorithm choice//
+			////////////////////
+
+			//global
+			if (unprop_charge[0][1]!=unprop_charge[algoNum][0]){ 
+			ptMCGlbNum->Fill(unprop_pt[algoNum][0]);
+			wrongCharge_Glb++;
+			}
+			//Tkonly
+			if (unprop_charge[2][1]!=unprop_charge[algoNum][0]){ 
+			ptMCTkonlyNum->Fill(unprop_pt[algoNum][0]);
+			wrongCharge_Tkonly++;
+
+			}
+			//Tpfms
+			if (unprop_charge[3][1]!=unprop_charge[algoNum][0]){ 
+			ptMCTpfmsNum->Fill(unprop_pt[algoNum][0]);
+			wrongCharge_TPFMS++;
+
+			}
+			//Picky
+			if (unprop_charge[4][1]!=unprop_charge[algoNum][0]){ 
+			ptMCPickyNum->Fill(unprop_pt[algoNum][0]);
+			wrongCharge_Picky++;
+
+			}
+			//DYT
+			if (unprop_charge[5][1]!=unprop_charge[algoNum][0]){ 
+			ptMCDYTNum->Fill(unprop_pt[algoNum][0]);
+			wrongCharge_DYT++;
+
+			}
+			//TuneP
+			if (unprop_charge[8][1]!=unprop_charge[algoNum][0]){ 
+			ptMCTunePNum->Fill(unprop_pt[algoNum][0]);
+			wrongCharge_TuneP++;
+			}
+			
 		}
+
 
 }
 
@@ -367,53 +422,54 @@ void pTChargeMis(string algo=""){
 		//////////////////////////////////////
 		//
 		/////////////////DATA/////////////////
-		TH1F *h5 = (TH1F*)ptDataDen->Clone("h5");
-		h5->Sumw2();
-		h5->SetStats(11111);      // No statistics on lower plot
-		h5->Divide(ptDataTunePNum,ptDataDen ,1,1,"B");
+		TH1F *TuneP = (TH1F*)ptDataDen->Clone("TuneP");
+		TuneP->Sumw2();
+		TuneP->SetStats(11111);      // No statistics on lower plot
+		TuneP->Divide(ptDataTunePNum,ptDataDen ,1,1,"B");
 
 		/////////////////////////////////////////
 		//////////////////MC/////////////////////
-		TH1F *h5MC = (TH1F*)ptMCDen->Clone("h5MC");
-		h5MC->Sumw2();
-		h5MC->Divide(ptMCTunePNum,ptMCDen ,1,1,"B");
+		TH1F *TunePMC = (TH1F*)ptMCDen->Clone("TunePMC");
+		TunePMC->Sumw2();
+		TunePMC->Divide(ptMCTunePNum,ptMCDen ,1,1,"B");
 
 		
 		
-		h5->SetMarkerColor(kBlue);
-		h5->SetLineColor(kBlue);
-		h5->SetMarkerStyle(20);
-		h5->GetXaxis()->SetTitleSize(0.05);
-		h5->GetXaxis()->SetTitle(titleX.c_str());
-		h5->GetXaxis()->SetTitleOffset(0.91);
+		TuneP->SetMarkerColor(kBlue+2);
+		TuneP->SetLineColor(kBlue+2);
+		TuneP->SetMarkerStyle(20);
+		TuneP->GetXaxis()->SetTitleSize(0.045);
+		TuneP->GetXaxis()->SetLabelSize(0.04);
+		TuneP->GetXaxis()->SetTitle(titleX.c_str());
+		TuneP->GetXaxis()->SetTitleOffset(0.95);
 		// No statistics on lower plot
-		h5->GetYaxis()->SetTitle("Prob. of misidentification");
+		TuneP->GetYaxis()->SetTitle("Prob. of misidentification");
 		// X axis ratio plot settings
-		h5->GetYaxis()->SetTitleSize(0.048);
+		TuneP->GetYaxis()->SetTitleSize(0.048);
 
-		h5->GetYaxis()->SetTitleOffset(1.1);
-		h5->GetYaxis()->SetRangeUser(0,0.006);
+		TuneP->GetYaxis()->SetTitleOffset(1.1);
+		TuneP->GetYaxis()->SetRangeUser(0,0.006);
 
-		h5->Draw("E0");       // Draw the ratio plot
-		h5MC->SetMarkerColor(kBlue-9);
-		h5MC->SetLineColor(kBlue-9);
-		h5MC->SetMarkerStyle(24);
-		h5MC->Draw("E0 SAME");       // Draw the ratio plot
+		TuneP->Draw("E0");       // Draw the ratio plot
+		TunePMC->SetMarkerColor(kBlue-9);
+		TunePMC->SetLineColor(kBlue-9);
+		TunePMC->SetMarkerStyle(24);
+		TunePMC->Draw("E0 SAME");       // Draw the ratio plot
 
 
 		//////////////////////////////////////////////////////////
 		/////////////LEGEND///////////////////////////////////////
 		//////////////////////////////////////////////////////////
 		TLegend * legData = new TLegend(0.75, 0.67, 0.98, 0.77);
-		legData->SetHeader("Data 2016+2017");
+		legData->SetHeader("Data 16-17-18");
 		legData->SetFillColor(10);
-		legData->AddEntry(h5,"TuneP");
+		legData->AddEntry(TuneP,"TuneP");
 		legData -> Draw();
 
 		TLegend * legMC = new TLegend(0.75, 0.57, 0.98, 0.67);
 		legMC->SetHeader("MC 2016");
 		legMC->SetFillColor(10);
-		legMC->AddEntry(h5MC,"TuneP");
+		legMC->AddEntry(TunePMC,"TuneP");
 		legMC -> Draw();
 
 		/*
@@ -454,12 +510,12 @@ void pTChargeMis(string algo=""){
 		////////////////////////////////////////////////
 
 		TH1F *h1 = (TH1F*)ptDataDen->Clone("h1");
-		h1->SetLineColor(kRed);
+		h1->SetLineColor(kRed+2);
 		h1->Sumw2();
 		h1->SetStats(0);      // No statistics on lower plot
 		h1->Divide(ptDataTkonlyNum,ptDataDen ,1,1,"B");
 		h1->SetMarkerStyle(22);
-		h1->SetMarkerColor(kRed);
+		h1->SetMarkerColor(kRed+2);
 		float TkonlyBin =  h1->GetBinContent(1);
 		//cout << "Charge rate - Tkonly : " << TkonlyBin << endl;
 
@@ -470,12 +526,12 @@ void pTChargeMis(string algo=""){
 		/////////////////////////////////////////////////
 
 		TH1F *h2 = (TH1F*)ptDataDen->Clone("h2");
-		h2->SetLineColor(kOrange);
+		h2->SetLineColor(kOrange+2);
 		h2->Sumw2();
 		h2->SetStats(0);      // No statistics on lower plot
 		h2->Divide(ptDataTpfmsNum,ptDataDen ,1,1,"B");
 		h2->SetMarkerStyle(20);
-		h2->SetMarkerColor(kOrange);
+		h2->SetMarkerColor(kOrange+2);
 		float TpfmsBin =  h2->GetBinContent(1);
 		//cout << "Charge rate - TPFMS : " << TpfmsBin << endl;
 
@@ -486,12 +542,12 @@ void pTChargeMis(string algo=""){
 		//////////////////////////////////////////////////
 
 		TH1F *h3 = (TH1F*)ptDataDen->Clone("h3");
-		h3->SetLineColor(kMagenta);
+		h3->SetLineColor(kMagenta+2);
 		h3->Sumw2();
 		h3->SetStats(0);      // No statistics on lower plot
 		h3->Divide(ptDataPickyNum,ptDataDen ,1,1,"B");
 		h3->SetMarkerStyle(23);
-		h3->SetMarkerColor(kMagenta);
+		h3->SetMarkerColor(kMagenta+2);
 		float PickyBin =  h3->GetBinContent(1);
 		//cout << "Charge rate - Picky : " << PickyBin << endl;
 
@@ -501,12 +557,12 @@ void pTChargeMis(string algo=""){
 		//DYT
 		//////////////////////////////////////////////////
 		TH1F *h4 = (TH1F*)ptDataDen->Clone("h4");
-		h4->SetLineColor(kGreen);
+		h4->SetLineColor(kGreen+2);
 		h4->Sumw2();
 		h4->SetStats(0);      // No statistics on lower plot
 		h4->Divide(ptDataDYTNum,ptDataDen ,1,1,"B");
 		h4->SetMarkerStyle(24);
-		h4->SetMarkerColor(kGreen);
+		h4->SetMarkerColor(kGreen+2);
 		float DYTBin =  h4->GetBinContent(1);
 		//cout << "Charge rate - DYT : " << DYTBin << endl;
 
@@ -516,19 +572,19 @@ void pTChargeMis(string algo=""){
 		//TuneP
 		//////////////////////////////////////////////////
 
-		TH1F *h5 = (TH1F*)ptDataDen->Clone("h5");
-		h5->SetLineColor(kBlue);
-		h5->Sumw2();
-		h5->SetMarkerColor(kBlue);
+		TH1F *TuneP = (TH1F*)ptDataDen->Clone("TuneP");
+		TuneP->SetLineColor(kBlue+2);
+		TuneP->Sumw2();
+		TuneP->SetMarkerColor(kBlue+2);
 
-		h5->SetStats(0);      // No statistics on lower plot
-		h5->Divide(ptDataTunePNum,ptDataDen,1,1,"B");
+		TuneP->SetStats(0);      // No statistics on lower plot
+		TuneP->Divide(ptDataTunePNum,ptDataDen,1,1,"B");
 
-		float TunePBin =  h5->GetBinContent(1);
+		float TunePBin =  TuneP->GetBinContent(1);
 		//cout << "Charge rate - TuneP : " << TunePBin << endl;
 
-		h5->SetMarkerStyle(25);
-		h5->Draw("E0 SAME");       // Draw the ratio plot
+		TuneP->SetMarkerStyle(25);
+		TuneP->Draw("E0 SAME");       // Draw the ratio plot
 
 		///////////////////////////////////////////////////
 
@@ -541,7 +597,7 @@ void pTChargeMis(string algo=""){
 		leg0->AddEntry(h2,"TPFMS ");
 		//leg0->AddEntry(h3,"Picky");
 		//leg0->AddEntry(h4,"DYT ");
-		//leg0->AddEntry(h5,"TuneP");
+		//leg0->AddEntry(TuneP,"TuneP");
 
 		leg0 -> Draw();*/
 
