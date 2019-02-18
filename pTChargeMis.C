@@ -40,8 +40,6 @@ float eta[n_tracks][n_track_pos];
 ushort pixel_hits[n_tracks][n_track_pos];
 ushort strip_layers[n_tracks][n_track_pos];
 
-int binnum=0;
-float bins[]={};
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -70,20 +68,33 @@ float bins[]={};
 //
 //
 void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = false){
+	
+	string titleX="";
+	//int binnum=0;
+	//float bins[]={};
+	float bins[]={-0.9,0,0.9};
+	int binnum = 2;
 
 	cout << "print var : " << var <<endl;	
+	
 	//Declaration of histogramm i plan to plot with this code	
 	if (var == "pT"){
-		float bins[]={50,100,200,400,1000,2000};
-		int binnum = 5;
+		//bins[]={50,100,200,400,1000,2000};
+		//binnum = 5;
+		titleX = string("p_{t} [GeV]-") +algo+ " " + tag + string(" leg tag");
+
 	}
 	else if (var == "eta"){
-		float bins[]={-0.9,0,0.9};
-		int binnum = 2;
+		//bins[]={-0.9,0,0.9};
+		//binnum = 2;
+		titleX = string("#eta-") +algo+ " " + tag + string(" leg tag");
+
 	}
 	else {
-		float bins[]={-3,-2.5,-2,-1.5,-1,-0.5,0};
-		int binnum = 6;
+		//bins[]={-3,-2.5,-2,-1.5,-1,-0.5,0};
+		//binnum = 6;
+		titleX = string("#phi-") +algo+ " " + tag + string(" leg tag");
+
 	}
 
 
@@ -152,7 +163,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 	int algoNum=0;
 
-	string titleX = var + string(" - ")+algo+ " " + tag + string(" leg tag");
+	//string titleX = var + string(" - ")+algo+ " " + tag + string(" leg tag");
 	string title = algo + string(" lower leg tag");
 
 	if (algo == "Glb") algoNum=0;
@@ -546,7 +557,8 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		Glb->GetYaxis()->SetTitleSize(0.048);
 		Glb->GetYaxis()->SetTitleOffset(1.1);
 		Glb->GetYaxis()->SetRangeUser(0,0.05);
-		Glb->Draw("E0");      
+		Glb->Draw("E0");
+		
 
 		GlbMC->SetMarkerColor(kGray);
 		GlbMC->SetLineColor(kGray);
@@ -561,17 +573,17 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 		/////////////////DATA/////////////////
 
-		/*TH1F *Tkonly = (TH1F*)DataDen->Clone("Tkonly");
+		TH1F *Tkonly = (TH1F*)DataDen->Clone("Tkonly");
 		  Tkonly->Sumw2();
 		  Tkonly->SetStats(0);      
 		  Tkonly->Divide(DataTkonlyNum,DataDen ,1,1,"B");
 
 		//////////////////MC/////////////////////
 
-		TH1F *TkonlyMC = (TH1F*)DataDen->Clone("TkonlyMC");
+		TH1F *TkonlyMC = (TH1F*)MCDen->Clone("TkonlyMC");
 		TkonlyMC->Sumw2();
 		TkonlyMC->SetStats(0);      
-		TkonlyMC->Divide(DataTkonlyMCNum,DataDen ,1,1,"B");
+		TkonlyMC->Divide(MCTkonlyNum,MCDen ,1,1,"B");
 
 		// PLOT SETTINGS
 
@@ -586,7 +598,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		//cout << "Charge rate - Tkonly : " << TkonlyBin << endl;
 
 		Tkonly->Draw("E0 SAME"); 
-		TkonlyMC->Draw("E0 SAME");*/
+		TkonlyMC->Draw("E0 SAME");
 		/////////////////////////////////////////////////
 		//TPFMS
 		/////////////////////////////////////////////////
@@ -627,17 +639,17 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 		/////////////////DATA/////////////////
 
-		/*TH1F *Picky = (TH1F*)DataDen->Clone("Picky");
+		TH1F *Picky = (TH1F*)DataDen->Clone("Picky");
 		  Picky->Sumw2();
 		  Picky->SetStats(0);      
 		  Picky->Divide(DataPickyNum,DataDen ,1,1,"B");
 
 		//////////////////MC/////////////////////
 
-		TH1F *PickyMC = (TH1F*)DataDen->Clone("PickyMC");
+		TH1F *PickyMC = (TH1F*)MCDen->Clone("PickyMC");
 		PickyMC->Sumw2();
 		PickyMC->SetStats(0);      
-		PickyMC->Divide(DataPickyMCNum,DataDen ,1,1,"B");
+		PickyMC->Divide(MCPickyNum,MCDen ,1,1,"B");
 
 		// PLOT SETTINGS
 
@@ -667,10 +679,10 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 		//////////////////MC/////////////////////
 
-		TH1F *DYTMC = (TH1F*)DataDen->Clone("DYTMC");
+		TH1F *DYTMC = (TH1F*)MCDen->Clone("DYTMC");
 		DYTMC->Sumw2();
 		DYTMC->SetStats(0);      
-		DYTMC->Divide(DataDYTMCNum,DataDen ,1,1,"B");
+		DYTMC->Divide(MCDYTNum,MCDen ,1,1,"B");
 
 		// PLOT SETTINGS
 
@@ -700,10 +712,10 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 		//////////////////MC/////////////////////
 
-		TH1F *TunePMC = (TH1F*)DataDen->Clone("TunePMC");
+		TH1F *TunePMC = (TH1F*)MCDen->Clone("TunePMC");
 		TunePMC->Sumw2();
 		TunePMC->SetStats(0);      
-		TunePMC->Divide(DataTunePMCNum,DataDen ,1,1,"B");
+		TunePMC->Divide(MCTunePNum,MCDen ,1,1,"B");
 
 		// PLOT SETTINGS
 
@@ -718,30 +730,36 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		//cout << "Charge rate - TuneP : " << TunePBin << endl;
 
 		TuneP->Draw("E0 SAME"); 
-		TunePMC->Draw("E0 SAME");*/
+		TunePMC->Draw("E0 SAME");
 
 			///////////////////////////////////////////////////
 
-			TLegend * legData = new TLegend(0.75, 0.63, 0.98, 0.77);
+		//TLegend * legData = new TLegend(0.75, 0.63, 0.98, 0.77);
+		//all algos
+		TLegend * legData = new TLegend(0.75, 0.6, 0.98, 0.77);
+
 		legData->SetHeader("Data 16-17-18");
 		legData->SetFillColor(10);
 		legData->AddEntry(Glb,"Global");
-		//legData->AddEntry(Tkonly,"Tkonly");
+		legData->AddEntry(Tkonly,"Tkonly");
 		legData->AddEntry(Tpfms,"TPFMS ");
-		//legData->AddEntry(Picky,"Picky");
-		//legData->AddEntry(DYT,"DYT ");
-		//legData->AddEntry(TuneP,"TuneP");
+		legData->AddEntry(Picky,"Picky");
+		legData->AddEntry(DYT,"DYT ");
+		legData->AddEntry(TuneP,"TuneP");
 		legData -> Draw();
 
-		TLegend * legMC = new TLegend(0.75, 0.49, 0.98, 0.63);
+		//TLegend * legMC = new TLegend(0.75, 0.49, 0.98, 0.63);
+		//all algos
+		TLegend * legMC = new TLegend(0.75, 0.43, 0.98, 0.6);
+
 		legMC->SetHeader("MC 2016");
 		legMC->SetFillColor(10);
 		legMC->AddEntry(GlbMC,"Global");
-		//legMC->AddEntry(TkonlyMC,"Tkonly");
+		legMC->AddEntry(TkonlyMC,"Tkonly");
 		legMC->AddEntry(TpfmsMC,"TPFMS ");
-		//legMC->AddEntry(PickyMC,"Picky");
-		//legMC->AddEntry(DYTMC,"DYT ");
-		//legMC->AddEntry(TunePMC,"TuneP");
+		legMC->AddEntry(PickyMC,"Picky");
+		legMC->AddEntry(DYTMC,"DYT ");
+		legMC->AddEntry(TunePMC,"TuneP");
 		legMC -> Draw();
 
 	}
