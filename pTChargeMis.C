@@ -68,15 +68,17 @@ ushort strip_layers[n_tracks][n_track_pos];
 //
 //
 void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = false){
-	
+
 	string titleX="";
 	//int binnum=0;
 	//float bins[]={};
-	float bins[]={-0.9,0,0.9};
-	int binnum = 2;
+	//float bins[]={-0.9,0,0.9};
+	//int binnum = 2;
+	float bins[]={50,100,200,400,1000,2000};
+	int binnum = 5;
 
 	cout << "print var : " << var <<endl;	
-	
+
 	//Declaration of histogramm i plan to plot with this code	
 	if (var == "pT"){
 		//bins[]={50,100,200,400,1000,2000};
@@ -134,10 +136,10 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 	TChain *treeMC = new TChain("UTpickedTracks/t");
 
 	// this is the root file you have input with your tree inside
-	//treedata->Add("ROOT_Files/allVersions/cosmic_data_16_17_18.root");
-	treedata->Add ("ROOT_Files/resolution_cosmics.root");
-	treeMC->Add ("ROOT_Files/resolution_cosmics.root");
-	//treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
+	treedata->Add("ROOT_Files/cosmic_data_2016_2017/cosmic_data_16_17.root");
+	//treedata->Add ("ROOT_Files/resolution_cosmics.root");
+	//treeMC->Add ("ROOT_Files/resolution_cosmics.root");
+	treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
 
 	// the following lines are to extract the branch of the trees, when there is a & it means that there is only one entry per event, like for run, lumi, event, dilepton mass in my case for DY events.
 
@@ -176,12 +178,12 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 	int leg, antileg;
 
 	if (tag =="lower"){
-		leg = 0;
-		antileg = 1;
+		leg = 1;
+		antileg = 0;
 	}
 	else {
-		leg = 1;
-		antileg=0;
+		leg = 0;
+		antileg=1;
 	}
 
 	/************************************************************/
@@ -497,7 +499,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		TuneP->GetYaxis()->SetTitle("Prob. of misidentification");
 		TuneP->GetYaxis()->SetTitleSize(0.048);
 		TuneP->GetYaxis()->SetTitleOffset(1.1);
-		TuneP->GetYaxis()->SetRangeUser(0,0.006);
+		//TuneP->GetYaxis()->SetRangeUser(0,0.02);
 		TuneP->Draw("E0");      
 
 		TunePMC->SetMarkerColor(kBlue-9);
@@ -509,7 +511,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		/////////////LEGEND///////////////////////////////////////
 		//////////////////////////////////////////////////////////
 		TLegend * legData = new TLegend(0.75, 0.67, 0.98, 0.77);
-		legData->SetHeader("Data 16-17-18");
+		legData->SetHeader("Data 16-17");
 		legData->SetFillColor(10);
 		legData->AddEntry(TuneP,"TuneP");
 		legData -> Draw();
@@ -556,9 +558,9 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		Glb->GetYaxis()->SetTitle("Prob. of misidentification");
 		Glb->GetYaxis()->SetTitleSize(0.048);
 		Glb->GetYaxis()->SetTitleOffset(1.1);
-		Glb->GetYaxis()->SetRangeUser(0,0.05);
+		Glb->GetYaxis()->SetRangeUser(0,0.02);
 		Glb->Draw("E0");
-		
+
 
 		GlbMC->SetMarkerColor(kGray);
 		GlbMC->SetLineColor(kGray);
@@ -573,7 +575,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 		/////////////////DATA/////////////////
 
-		TH1F *Tkonly = (TH1F*)DataDen->Clone("Tkonly");
+		/*TH1F *Tkonly = (TH1F*)DataDen->Clone("Tkonly");
 		  Tkonly->Sumw2();
 		  Tkonly->SetStats(0);      
 		  Tkonly->Divide(DataTkonlyNum,DataDen ,1,1,"B");
@@ -598,7 +600,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		//cout << "Charge rate - Tkonly : " << TkonlyBin << endl;
 
 		Tkonly->Draw("E0 SAME"); 
-		TkonlyMC->Draw("E0 SAME");
+		TkonlyMC->Draw("E0 SAME");*/
 		/////////////////////////////////////////////////
 		//TPFMS
 		/////////////////////////////////////////////////
@@ -639,7 +641,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 		/////////////////DATA/////////////////
 
-		TH1F *Picky = (TH1F*)DataDen->Clone("Picky");
+		/*TH1F *Picky = (TH1F*)DataDen->Clone("Picky");
 		  Picky->Sumw2();
 		  Picky->SetStats(0);      
 		  Picky->Divide(DataPickyNum,DataDen ,1,1,"B");
@@ -730,22 +732,22 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		//cout << "Charge rate - TuneP : " << TunePBin << endl;
 
 		TuneP->Draw("E0 SAME"); 
-		TunePMC->Draw("E0 SAME");
+		TunePMC->Draw("E0 SAME");*/
 
 			///////////////////////////////////////////////////
 
-		//TLegend * legData = new TLegend(0.75, 0.63, 0.98, 0.77);
-		//all algos
-		TLegend * legData = new TLegend(0.75, 0.6, 0.98, 0.77);
+			//TLegend * legData = new TLegend(0.75, 0.63, 0.98, 0.77);
+			//all algos
+			TLegend * legData = new TLegend(0.75, 0.6, 0.98, 0.77);
 
-		legData->SetHeader("Data 16-17-18");
+		legData->SetHeader("Data 16-17");
 		legData->SetFillColor(10);
 		legData->AddEntry(Glb,"Global");
-		legData->AddEntry(Tkonly,"Tkonly");
+		//legData->AddEntry(Tkonly,"Tkonly");
 		legData->AddEntry(Tpfms,"TPFMS ");
-		legData->AddEntry(Picky,"Picky");
-		legData->AddEntry(DYT,"DYT ");
-		legData->AddEntry(TuneP,"TuneP");
+		//legData->AddEntry(Picky,"Picky");
+		//legData->AddEntry(DYT,"DYT ");
+		//legData->AddEntry(TuneP,"TuneP");
 		legData -> Draw();
 
 		//TLegend * legMC = new TLegend(0.75, 0.49, 0.98, 0.63);
@@ -755,11 +757,11 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 		legMC->SetHeader("MC 2016");
 		legMC->SetFillColor(10);
 		legMC->AddEntry(GlbMC,"Global");
-		legMC->AddEntry(TkonlyMC,"Tkonly");
+		//legMC->AddEntry(TkonlyMC,"Tkonly");
 		legMC->AddEntry(TpfmsMC,"TPFMS ");
-		legMC->AddEntry(PickyMC,"Picky");
-		legMC->AddEntry(DYTMC,"DYT ");
-		legMC->AddEntry(TunePMC,"TuneP");
+		//legMC->AddEntry(PickyMC,"Picky");
+		//legMC->AddEntry(DYTMC,"DYT ");
+		//legMC->AddEntry(TunePMC,"TuneP");
 		legMC -> Draw();
 
 	}

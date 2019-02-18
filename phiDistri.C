@@ -40,51 +40,81 @@ ushort strip_layers[n_tracks][n_track_pos];
 ////////////////////////////////////////////////////////////////////////////////
 
 
-//Declaration of hitsogramm i plan to plot with this code
-//DATA TH1F
-TH1F *phihistoGlbUP =new TH1F("phihistoGlb","",15,-3,0);
-TH1F *phihistoGlbLOW =new TH1F("phihistoGlbLOW","",15,-3,0);
 
-TH1F *phihistoTkonlyUP =new TH1F("phihistoTkonly","",15,-3,0);
-TH1F *phihistoTkonlyLOW =new TH1F("phihistoTkonlyLOW","",15,-3,0);
-
-TH1F *phihistoTpfmsUP =new TH1F("phihistoTpfms","",15,-3,0);
-TH1F *phihistoTpfmsLOW =new TH1F("phihistoTpfmsLOW","",15,-3,0);
-
-TH1F *phihistoPickyUP =new TH1F("phihistoPicky","",15,-3,0);
-TH1F *phihistoPickyLOW =new TH1F("phihistoPickyLOW","",15,-3,0);
-
-TH1F *phihistoDYTUP =new TH1F("phihistoDYT","",15,-3,0);
-TH1F *phihistoDYTLOW =new TH1F("phihistoDYTLOW","",15,-3,0);
-
-TH1F *phihistoTunePUP =new TH1F("phihistoTuneP","",15,-3,0);
-TH1F *phihistoTunePLOW =new TH1F("phihistoTunePLOW","",15,-3,0);
-
-//MC TH1F
-TH1F *phiMChistoGlbUP =new TH1F("phiMChistoGlb","",15,-3,0);
-TH1F *phiMChistoGlbLOW =new TH1F("phiMChistoGlbLOW","",15,-3,0);
-
-TH1F *phiMChistoTkonlyUP =new TH1F("phiMChistoTkonly","",15,-3,0);
-TH1F *phiMChistoTkonlyLOW =new TH1F("phiMChistoTkonlyLOW","",15,-3,0);
-
-TH1F *phiMChistoTpfmsUP =new TH1F("phiMChistoTpfms","",15,-3,0);
-TH1F *phiMChistoTpfmsLOW =new TH1F("phiMChistoTpfmsLOW","",15,-3,0);
-
-TH1F *phiMChistoPickyUP =new TH1F("phiMChistoPicky","",15,-3,0);
-TH1F *phiMChistoPickyLOW =new TH1F("phiMChistoPickyLOW","",15,-3,0);
-
-TH1F *phiMChistoDYTUP =new TH1F("phiMChistoDYT","",15,-3,0);
-TH1F *phiMChistoDYTLOW =new TH1F("phiMChistoDYTLOW","",15,-3,0);
-
-TH1F *phiMChistoTunePUP =new TH1F("phiMChistoTuneP","",15,-3,0);
-TH1F *phiMChistoTunePLOW =new TH1F("phiMChistoTunePLOW","",15,-3,0);
 
 
 //Begining of teh function
-void phiDistri(){
+void phiDistri(string var=""){
+
+	string titleX="";
+	string titleLegend="";
+	//phi
+/*	float binMin =-3;
+	float binMax =0;
+	int binnum = 15;*/
+
+	//eta 
+	/*float binMin =-3;
+	float binMax =3;
+	int binnum = 20;*/
+	
+	//pt 
+
+	float bins[]={50,100,200,300,400,600,2000};
+	int binnum = 6;
+	//Declaration of histogramm i plan to plot with this code	
+	if (var == "pT"){
+		titleX = string("p_{t} [GeV]-TuneP") ;
+
+	}
+	else if (var == "eta"){
+		titleX = string("#eta-TuneP") ;
+
+	}
+	else {
+		titleX = string("#phi-TuneP") ;
+
+	}
 
 
+	//Declaration of hitsogramm i plan to plot with this code
+	//DATA TH1F
+	TH1F *dataGlbUP =new TH1F("dataGlb","",binnum,bins);
+	TH1F *dataGlbLOW =new TH1F("dataGlbLOW","",binnum,bins);
 
+	TH1F *dataTkonlyUP =new TH1F("dataTkonly","",binnum,bins);
+	TH1F *dataTkonlyLOW =new TH1F("dataTkonlyLOW","",binnum,bins);
+
+	TH1F *dataTpfmsUP =new TH1F("dataTpfms","",binnum,bins);
+	TH1F *dataTpfmsLOW =new TH1F("dataTpfmsLOW","",binnum,bins);
+
+	TH1F *dataPickyUP =new TH1F("dataPicky","",binnum,bins);
+	TH1F *dataPickyLOW =new TH1F("dataPickyLOW","",binnum,bins);
+
+	TH1F *dataDYTUP =new TH1F("dataDYT","",binnum,bins);
+	TH1F *dataDYTLOW =new TH1F("dataDYTLOW","",binnum,bins);
+
+	TH1F *dataTunePUP =new TH1F("dataTuneP","",binnum,bins);
+	TH1F *dataTunePLOW =new TH1F("dataTunePLOW","",binnum,bins);
+
+	//MC TH1F
+	TH1F *MCGlbUP =new TH1F("MCGlb","",binnum,bins);
+	TH1F *MCGlbLOW =new TH1F("MCGlbLOW","",binnum,bins);
+
+	TH1F *MCTkonlyUP =new TH1F("MCTkonly","",binnum,bins);
+	TH1F *MCTkonlyLOW =new TH1F("MCTkonlyLOW","",binnum,bins);
+
+	TH1F *MCTpfmsUP =new TH1F("MCTpfms","",binnum,bins);
+	TH1F *MCTpfmsLOW =new TH1F("MCTpfmsLOW","",binnum,bins);
+
+	TH1F *MCPickyUP =new TH1F("MCPicky","",binnum,bins);
+	TH1F *MCPickyLOW =new TH1F("MCPickyLOW","",binnum,bins);
+
+	TH1F *MCDYTUP =new TH1F("MCDYT","",binnum,bins);
+	TH1F *MCDYTLOW =new TH1F("MCDYTLOW","",binnum,bins);
+
+	TH1F *MCTunePUP =new TH1F("MCTuneP","",binnum,bins);
+	TH1F *MCTunePLOW =new TH1F("MCTunePLOW","",binnum,bins);
 	// the next line is to link the tree you have
 
 	TChain *treedata = new TChain("UTpickedTracks/t");
@@ -96,8 +126,11 @@ void phiDistri(){
 	treedata->Add("ROOT_Files/cosmic_data_2016_2017/cosmic_data_16_17.root");
 	//treedata->Add ("ROOT_Files/resolution_cosmics.root");
 	//treeMC->Add ("ROOT_Files/resolution_cosmics.root");
-	//treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
-	treeMC->Add("ROOT_Files/MC2016/MC_P10.root");
+	treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
+	//treeMC->Add("ROOT_Files/MC2016/MC_P10.root");
+	//treeMC->Add("ROOT_Files/MC2016/MC_2016_P100.root");
+	//treeMC->Add("ROOT_Files/MC2016/MC_2016_P500.root");
+
 	// the following lines are to extract the branch of the trees, when there is a & it means that there is only one entry per event, like for run, lumi, event, dilephion mass in my case for DY events.
 	treedata->SetBranchAddress("unprop_phi",unprop_phi);
 	treedata->SetBranchAddress("unprop_charge",unprop_charge);
@@ -132,36 +165,108 @@ void phiDistri(){
 		//selection cuts
 
 		if (pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
-			//Pt Bin
-			if (unprop_pt[8][1]>10 && unprop_pt[8][1]<100){
 
+			//Pt Bin
+			//if (unprop_pt[8][1]>10 && unprop_pt[8][1]<100){
 				
-				//Algorithm choice
-				
-				
-				//global
-				phihistoGlbUP->Fill(unprop_phi[0][0]);
-				phihistoGlbLOW->Fill(unprop_phi[0][1]);
-				//Tkonly
-				phihistoTkonlyUP->Fill(unprop_phi[2][0]);
-				phihistoTkonlyLOW->Fill(unprop_phi[2][1]);
-				//Tpfms
-				phihistoTpfmsUP->Fill(unprop_phi[3][0]);
-				phihistoTpfmsLOW->Fill(unprop_phi[3][1]);
-				//Picky
-				phihistoPickyUP->Fill(unprop_phi[4][0]);
-				phihistoPickyLOW->Fill(unprop_phi[4][1]);
-				//DYT
-				phihistoDYTUP->Fill(unprop_phi[5][0]);
-				phihistoDYTLOW->Fill(unprop_phi[5][1]);
-				//TuneP
-				phihistoTunePUP->Fill(unprop_phi[8][0]);
-				phihistoTunePLOW->Fill(unprop_phi[8][1]);
+				/////////////Pt////////////////////
+
+
+				if (var == "pT"){
+
+
+					//Algorithm choice
+
+
+					//global
+					dataGlbUP->Fill(unprop_pt[0][0]);
+					dataGlbLOW->Fill(unprop_pt[0][1]);
+					//Tkonly
+					dataTkonlyUP->Fill(unprop_pt[2][0]);
+					dataTkonlyLOW->Fill(unprop_pt[2][1]);
+					//Tpfms
+					dataTpfmsUP->Fill(unprop_pt[3][0]);
+					dataTpfmsLOW->Fill(unprop_pt[3][1]);
+					//Picky
+					dataPickyUP->Fill(unprop_pt[4][0]);
+					dataPickyLOW->Fill(unprop_pt[4][1]);
+					//DYT
+					dataDYTUP->Fill(unprop_pt[5][0]);
+					dataDYTLOW->Fill(unprop_pt[5][1]);
+					//TuneP
+					dataTunePUP->Fill(unprop_pt[8][0]);
+					dataTunePLOW->Fill(unprop_pt[8][1]);
+				}
+
+				/////////////ETA////////////////////
+
+
+				else if (var == "eta"){
+
+					for (int i=0;i<n_tracks;i++){
+						for (int j=0;j<n_track_pos;j++){
+							eta[i][j]=  - log(tan(unprop_theta[i][j]/2)); 
+						}
+					}
+
+					//Algorithm choice
+
+
+					//global
+					dataGlbUP->Fill(eta[0][0]);
+					dataGlbLOW->Fill(eta[0][1]);
+					//Tkonly
+					dataTkonlyUP->Fill(eta[2][0]);
+					dataTkonlyLOW->Fill(eta[2][1]);
+					//Tpfms
+					dataTpfmsUP->Fill(eta[3][0]);
+					dataTpfmsLOW->Fill(eta[3][1]);
+					//Picky
+					dataPickyUP->Fill(eta[4][0]);
+					dataPickyLOW->Fill(eta[4][1]);
+					//DYT
+					dataDYTUP->Fill(eta[5][0]);
+					dataDYTLOW->Fill(eta[5][1]);
+					//TuneP
+					dataTunePUP->Fill(eta[8][0]);
+					dataTunePLOW->Fill(eta[8][1]);
+				}
+
+				/////////////PHI////////////////////
+
+
+				else{
+
+
+					//Algorithm choice
+
+
+					//global
+					dataGlbUP->Fill(unprop_phi[0][0]);
+					dataGlbLOW->Fill(unprop_phi[0][1]);
+					//Tkonly
+					dataTkonlyUP->Fill(unprop_phi[2][0]);
+					dataTkonlyLOW->Fill(unprop_phi[2][1]);
+					//Tpfms
+					dataTpfmsUP->Fill(unprop_phi[3][0]);
+					dataTpfmsLOW->Fill(unprop_phi[3][1]);
+					//Picky
+					dataPickyUP->Fill(unprop_phi[4][0]);
+					dataPickyLOW->Fill(unprop_phi[4][1]);
+					//DYT
+					dataDYTUP->Fill(unprop_phi[5][0]);
+					dataDYTLOW->Fill(unprop_phi[5][1]);
+					//TuneP
+					dataTunePUP->Fill(unprop_phi[8][0]);
+					dataTunePLOW->Fill(unprop_phi[8][1]);
+				}
+
+
 			}// end loop p
 
-		}	
+		//}	
 	}
-
+cout << "good Muons = " <<goodMuon << endl;
 	//MC
 	for ( int p=0; p<nentriesMC ;p++){
 		// this loop over all the events in your tree
@@ -171,36 +276,98 @@ void phiDistri(){
 		//selection cuts
 
 		if (pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
-			//Pt Bin
-			//if (unprop_pt[8][1]>0 && unprop_pt[8][1]<10){
 
+			/////////////Pt////////////////////
+
+			if (var == "pT"){
 
 				//Algorithm choice
 
 
 				//global
-				phiMChistoGlbUP->Fill(unprop_phi[0][0]);
-				phiMChistoGlbLOW->Fill(unprop_phi[0][1]);
+				MCGlbUP->Fill(unprop_pt[0][0]);
+				MCGlbLOW->Fill(unprop_pt[0][1]);
 				//Tkonly
-				phiMChistoTkonlyUP->Fill(unprop_phi[2][0]);
-				phiMChistoTkonlyLOW->Fill(unprop_phi[2][1]);
+				MCTkonlyUP->Fill(unprop_pt[2][0]);
+				MCTkonlyLOW->Fill(unprop_pt[2][1]);
 				//Tpfms
-				phiMChistoTpfmsUP->Fill(unprop_phi[3][0]);
-				phiMChistoTpfmsLOW->Fill(unprop_phi[3][1]);
+				MCTpfmsUP->Fill(unprop_pt[3][0]);
+				MCTpfmsLOW->Fill(unprop_pt[3][1]);
 				//Picky
-				phiMChistoPickyUP->Fill(unprop_phi[4][0]);
-				phiMChistoPickyLOW->Fill(unprop_phi[4][1]);
+				MCPickyUP->Fill(unprop_pt[4][0]);
+				MCPickyLOW->Fill(unprop_pt[4][1]);
 				//DYT
-				phiMChistoDYTUP->Fill(unprop_phi[5][0]);
-				phiMChistoDYTLOW->Fill(unprop_phi[5][1]);
+				MCDYTUP->Fill(unprop_pt[5][0]);
+				MCDYTLOW->Fill(unprop_pt[5][1]);
 				//TuneP
-				phiMChistoTunePUP->Fill(unprop_phi[8][0]);
-				phiMChistoTunePLOW->Fill(unprop_phi[8][1]);
-			}// end loop p
+				MCTunePUP->Fill(unprop_pt[8][0]);
+				MCTunePLOW->Fill(unprop_pt[8][1]);
+			}
+			
+			/////////////ETA////////////////////
 
-	//	}	
+			else if (var == "eta"){
+				
+				for (int i=0;i<n_tracks;i++){
+					for (int j=0;j<n_track_pos;j++){
+						eta[i][j]=  - log(tan(unprop_theta[i][j]/2)); 
+					}
+				}
+
+				//Algorithm choice
+
+
+				//global
+				MCGlbUP->Fill(eta[0][0]);
+				MCGlbLOW->Fill(eta[0][1]);
+				//Tkonly
+				MCTkonlyUP->Fill(eta[2][0]);
+				MCTkonlyLOW->Fill(eta[2][1]);
+				//Tpfms
+				MCTpfmsUP->Fill(eta[3][0]);
+				MCTpfmsLOW->Fill(eta[3][1]);
+				//Picky
+				MCPickyUP->Fill(eta[4][0]);
+				MCPickyLOW->Fill(eta[4][1]);
+				//DYT
+				MCDYTUP->Fill(eta[5][0]);
+				MCDYTLOW->Fill(eta[5][1]);
+				//TuneP
+				MCTunePUP->Fill(eta[8][0]);
+				MCTunePLOW->Fill(eta[8][1]);
+			}
+
+			/////////////PHI////////////////////
+
+			else {
+
+				//Algorithm choice
+
+
+				//global
+				MCGlbUP->Fill(unprop_phi[0][0]);
+				MCGlbLOW->Fill(unprop_phi[0][1]);
+				//Tkonly
+				MCTkonlyUP->Fill(unprop_phi[2][0]);
+				MCTkonlyLOW->Fill(unprop_phi[2][1]);
+				//Tpfms
+				MCTpfmsUP->Fill(unprop_phi[3][0]);
+				MCTpfmsLOW->Fill(unprop_phi[3][1]);
+				//Picky
+				MCPickyUP->Fill(unprop_phi[4][0]);
+				MCPickyLOW->Fill(unprop_phi[4][1]);
+				//DYT
+				MCDYTUP->Fill(unprop_phi[5][0]);
+				MCDYTLOW->Fill(unprop_phi[5][1]);
+				//TuneP
+				MCTunePUP->Fill(unprop_phi[8][0]);
+				MCTunePLOW->Fill(unprop_phi[8][1]);
+			}
+
+		}// end loop p
+
 	}
-	
+
 
 	Double_t norm = 1;
 	//Define the Canvas
@@ -212,71 +379,63 @@ void phiDistri(){
 	pad5a->SetGridx();         // Vertical grid
 	pad5a->Draw();             // Draw the upper pad: pad1
 	pad5a->cd();               // pad1 becomes the current pad
-	phihistoTunePUP->SetStats(111);          // No statistics on upper plot
-	
-	//renormalize histograms :
-	/*double scale_data_up = phihistoTunePUP->GetXaxis()->GetBinWidth(1)/(phihistoTunePUP->GetIntegral());
-	phihistoTunePUP->Scale(scale_data_up);
-	double scale_data_LOW = phihistoTunePLOW->GetXaxis()->GetBinWidth(1)/(phihistoTunePLOW->GetIntegral());
-	phihistoTunePLOW->Scale(scale_data_LOW);
-	double scale_MC_up = phiMChistoTunePUP->GetXaxis()->GetBinWidth(1)/(phiMChistoTunePUP->GetIntegral());
-	phiMChistoTunePUP->Scale(scale_MC_up);
-	double scale_MC_LOW = phiMChistoTunePLOW->GetXaxis()->GetBinWidth(1)/(phiMChistoTunePLOW->GetIntegral());
-	phiMChistoTunePLOW->Scale(scale_MC_LOW);*/
- phihistoTunePUP->Sumw2();
-	phihistoTunePUP->Scale(norm/phihistoTunePUP->Integral(), "width");
- phihistoTunePLOW->Sumw2();
-	phihistoTunePLOW->Scale(norm/phihistoTunePLOW->Integral(), "width");
- phiMChistoTunePUP->Sumw2();
-	phiMChistoTunePUP->Scale(norm/phiMChistoTunePUP->Integral(), "width");
- phiMChistoTunePLOW->Sumw2();
-	phiMChistoTunePLOW->Scale(norm/phiMChistoTunePLOW->Integral(), "width");
-		
-	// h1 settings
-	phihistoTunePUP->SetXTitle("#phi-TuneP ");
-	phihistoTunePUP->SetLineColor(kBlue+2);
-	phihistoTunePUP->SetLineWidth(2);
-	phihistoTunePUP->GetXaxis()->SetTitleSize(0.05);
-	phihistoTunePUP->GetYaxis()->SetRangeUser(0,1.5);
+	dataTunePUP->SetStats(111);          // No statistics on upper plot
 
-	phihistoTunePUP->SetMarkerColor(kBlue+2);
-	phihistoTunePUP->SetMarkerStyle(20);
-	phiMChistoTunePUP->SetLineColor(kBlue-9);
-	phiMChistoTunePUP->SetLineWidth(2);
-	phiMChistoTunePUP->SetMarkerColor(kBlue-9);
-	phiMChistoTunePUP->SetMarkerStyle(24);
+	//renormalize histograms :
+	dataTunePUP->Sumw2();
+	dataTunePUP->Scale(norm/dataTunePUP->Integral(), "width");
+	dataTunePLOW->Sumw2();
+	dataTunePLOW->Scale(norm/dataTunePLOW->Integral(), "width");
+	MCTunePUP->Sumw2();
+	MCTunePUP->Scale(norm/MCTunePUP->Integral(), "width");
+	MCTunePLOW->Sumw2();
+	MCTunePLOW->Scale(norm/MCTunePLOW->Integral(), "width");
+
+	// h1 settings
+	dataTunePUP->SetXTitle(titleX.c_str());
+	dataTunePUP->SetLineColor(kBlue);
+	dataTunePUP->SetLineWidth(2);
+	dataTunePUP->GetXaxis()->SetTitleSize(0.05);
+	//dataTunePUP->GetYaxis()->SetRangeUser(0,1.5);
+
+	dataTunePUP->SetMarkerColor(kBlue);
+	dataTunePUP->SetMarkerStyle(20);
+	MCTunePUP->SetLineColor(kBlue-9);
+	MCTunePUP->SetLineWidth(2);
+	MCTunePUP->SetMarkerColor(kBlue-9);
+	MCTunePUP->SetMarkerStyle(24);
 
 	// Y axis h1 plot settings
-	phihistoTunePUP->GetYaxis()->SetTitleSize(20);
-	phihistoTunePUP->GetYaxis()->SetTitleFont(43);
-	phihistoTunePUP->GetYaxis()->SetTitleOffset(1.);
+	dataTunePUP->GetYaxis()->SetTitleSize(20);
+	dataTunePUP->GetYaxis()->SetTitleFont(43);
+	dataTunePUP->GetYaxis()->SetTitleOffset(1.);
 	// h5 settings
-	phihistoTunePLOW->SetLineColor(kRed+2);
-	phihistoTunePLOW->SetLineWidth(2);
-	phihistoTunePLOW->SetMarkerColor(kRed+2);
-	phihistoTunePLOW->SetMarkerStyle(20);
-	phiMChistoTunePLOW->SetLineColor(kRed-9);
-	phiMChistoTunePLOW->SetLineWidth(2);
-	phiMChistoTunePLOW->SetMarkerColor(kRed-9);
-	phiMChistoTunePLOW->SetMarkerStyle(24);
+	dataTunePLOW->SetLineColor(kRed);
+	dataTunePLOW->SetLineWidth(2);
+	dataTunePLOW->SetMarkerColor(kRed);
+	dataTunePLOW->SetMarkerStyle(20);
+	MCTunePLOW->SetLineColor(kRed-9);
+	MCTunePLOW->SetLineWidth(2);
+	MCTunePLOW->SetMarkerColor(kRed-9);
+	MCTunePLOW->SetMarkerStyle(24);
 
 	//DRAW
-	phihistoTunePUP->Draw("E1");               
-	phihistoTunePLOW->Draw("E1 same");        
-	phiMChistoTunePUP->Draw("E1 same");      
-	phiMChistoTunePLOW->Draw("E1 same");
+	dataTunePUP->Draw("E1");               
+	dataTunePLOW->Draw("E1 same");        
+	MCTunePUP->Draw("E1 same");      
+	MCTunePLOW->Draw("E1 same");
 	//LEGEND
 	TLegend * leg5 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg5->SetHeader("TuneP-2016+2017 data");
 	leg5->SetFillColor(10);
-	leg5->AddEntry(phihistoTunePUP,"Upper leg ","l");
-	leg5->AddEntry(phihistoTunePLOW,"Lower leg","l");
+	leg5->AddEntry(dataTunePUP,"Upper leg ","l");
+	leg5->AddEntry(dataTunePLOW,"Lower leg","l");
 	leg5 -> Draw();
 	TLegend * legMC = new TLegend(0.6, 0.43, 0.98, 0.6);
 	legMC->SetHeader("TuneP-MC 2016");
 	legMC->SetFillColor(10);
-	legMC->AddEntry(phiMChistoTunePUP,"Upper leg ","l");
-	legMC->AddEntry(phiMChistoTunePLOW,"Lower leg","l");
+	legMC->AddEntry(MCTunePUP,"Upper leg ","l");
+	legMC->AddEntry(MCTunePLOW,"Lower leg","l");
 	legMC -> Draw();
 
 
@@ -290,22 +449,22 @@ void phiDistri(){
 	pad5b->cd();       // pad2 becomes the current pad
 
 	// Define the ratio plot - UP
-	TH1F *h5 = (TH1F*)phihistoTunePUP->Clone("h5");
+	TH1F *h5 = (TH1F*)dataTunePUP->Clone("h5");
 	h5->SetLineColor(kBlack);
 	h5->Sumw2();
 	h5->SetStats(0);      // No statistics on lower plot
-	h5->Divide(phihistoTunePUP,phiMChistoTunePUP ,1,1,"B");
+	h5->Divide(dataTunePUP,MCTunePUP ,1,1,"B");
 	h5->SetMarkerStyle(21);
 	h5->SetMarkerColor(kBlue);
 	h5->SetLineColor(kBlue);
 
 	h5->Draw("E1");       // Draw the ratio plot
 	// Define the ratio plot - LOW
-	TH1F *h5LOW = (TH1F*)phihistoTunePLOW->Clone("h5LOW");
+	TH1F *h5LOW = (TH1F*)dataTunePLOW->Clone("h5LOW");
 	h5LOW->SetLineColor(kBlack);
 	h5LOW->Sumw2();
 	h5LOW->SetStats(0);      // No statistics on lower plot
-	h5LOW->Divide(phihistoTunePLOW,phiMChistoTunePUP ,1,1,"B");
+	h5LOW->Divide(dataTunePLOW,MCTunePUP ,1,1,"B");
 	h5LOW->SetMarkerStyle(21);
 	h5LOW->SetMarkerColor(kRed);
 	h5LOW->SetLineColor(kRed);
@@ -328,7 +487,7 @@ void phiDistri(){
 	h5->GetXaxis()->SetTitle("");
 
 	h5->SetStats(0);      // No statistics on lower plot
-	h5->GetYaxis()->SetRangeUser(0.8,1.2);
+	h5->GetYaxis()->SetRangeUser(-2,2);
 
 
 
@@ -347,17 +506,17 @@ void phiDistri(){
 	pad0a->SetGridx();         // Vertical grid
 	pad0a->Draw();             // Draw the upper pad: pad1
 	pad0a->cd();               // pad1 becomes the current pad
-	//phihistoGlbUP->SetStats(0);          // No statistics on upper plot
-	phihistoGlbUP->Draw("E1");               // Draw h1
-	phihistoGlbLOW->Draw("E1 same");         // Draw h2 on top of h1
+	//dataGlbUP->SetStats(0);          // No statistics on upper plot
+	dataGlbUP->Draw("E1");               // Draw h1
+	dataGlbLOW->Draw("E1 same");         // Draw h2 on top of h1
 	// Do not draw the Y axis label on the upper plot and redraw a small
 	// axis instead, in order to avoid the first label (0) to be clipped.
 
 	TLegend * leg0 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg0->SetHeader("Global fit");
 	leg0->SetFillColor(10);
-	leg0->AddEntry(phihistoGlbUP,"Upper leg ","l");
-	leg0->AddEntry(phihistoGlbLOW,"Lower leg","l");
+	leg0->AddEntry(dataGlbUP,"Upper leg ","l");
+	leg0->AddEntry(dataGlbLOW,"Lower leg","l");
 	leg0 -> Draw();
 
 
@@ -370,24 +529,24 @@ void phiDistri(){
 	pad0b->Draw();
 	pad0b->cd();       // pad2 becomes the current pad
 	// Define the ratio plot
-	TH1F *h0 = (TH1F*)phihistoGlbUP->Clone("h0");
+	TH1F *h0 = (TH1F*)dataGlbUP->Clone("h0");
 	h0->SetLineColor(kBlack);
 	h0->Sumw2();
 	h0->SetStats(0);      // No statistics on lower plot
-	h0->Divide(phihistoGlbUP,phihistoGlbLOW ,1,1,"B");
+	h0->Divide(dataGlbUP,dataGlbLOW ,1,1,"B");
 	h0->SetMarkerStyle(21);
 	h0->Draw("E1");       // Draw the ratio plot
 	// h1 settings
-	phihistoGlbUP->SetXTitle("#phi ");
-	phihistoGlbUP->SetLineColor(kBlue+1);
-	phihistoGlbUP->SetLineWidth(2);
+	dataGlbUP->SetXTitle("#phi ");
+	dataGlbUP->SetLineColor(kBlue+1);
+	dataGlbUP->SetLineWidth(2);
 	// Y axis h1 plot settings
-	phihistoGlbUP->GetYaxis()->SetTitleSize(20);
-	phihistoGlbUP->GetYaxis()->SetTitleFont(43);
-	phihistoGlbUP->GetYaxis()->SetTitleOffset(1.55);
+	dataGlbUP->GetYaxis()->SetTitleSize(20);
+	dataGlbUP->GetYaxis()->SetTitleFont(43);
+	dataGlbUP->GetYaxis()->SetTitleOffset(1.55);
 	// h2 settings
-	phihistoGlbLOW->SetLineColor(kRed);
-	phihistoGlbLOW->SetLineWidth(2);
+	dataGlbLOW->SetLineColor(kRed);
+	dataGlbLOW->SetLineWidth(2);
 	// Ratio plot (h0) settings
 	h0->SetTitle(""); // Remove the ratio title
 	// Y axis ratio plot settings
@@ -415,17 +574,17 @@ void phiDistri(){
 	pad1a->SetGridx();         // Vertical grid
 	pad1a->Draw();             // Draw the upper pad: pad1
 	pad1a->cd();               // pad1 becomes the current pad
-	//phihistoTkonlyUP->SetStats(0);          // No statistics on upper plot
-	phihistoTkonlyUP->Draw("E1");               // Draw h1
-	phihistoTkonlyLOW->Draw("E1 same");         // Draw h2 on top of h1
+	//dataTkonlyUP->SetStats(0);          // No statistics on upper plot
+	dataTkonlyUP->Draw("E1");               // Draw h1
+	dataTkonlyLOW->Draw("E1 same");         // Draw h2 on top of h1
 	// Do not draw the Y axis label on the upper plot and redraw a small
 	// axis instead, in order to avoid the first label (0) to be clipped.
 
 	TLegend * leg1 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg1->SetHeader("Tkonly");
 	leg1->SetFillColor(10);
-	leg1->AddEntry(phihistoTkonlyUP,"Upper leg ","l");
-	leg1->AddEntry(phihistoTkonlyLOW,"Lower leg","l");
+	leg1->AddEntry(dataTkonlyUP,"Upper leg ","l");
+	leg1->AddEntry(dataTkonlyLOW,"Lower leg","l");
 	leg1 -> Draw();
 
 
@@ -438,24 +597,24 @@ void phiDistri(){
 	pad1b->Draw();
 	pad1b->cd();       // pad2 becomes the current pad
 	// Define the ratio plot
-	TH1F *h1 = (TH1F*)phihistoTkonlyUP->Clone("h1");
+	TH1F *h1 = (TH1F*)dataTkonlyUP->Clone("h1");
 	h1->SetLineColor(kBlack);
 	h1->Sumw2();
 	h1->SetStats(0);      // No statistics on lower plot
-	h1->Divide(phihistoTkonlyUP,phihistoTkonlyLOW ,1,1,"B");
+	h1->Divide(dataTkonlyUP,dataTkonlyLOW ,1,1,"B");
 	h1->SetMarkerStyle(21);
 	h1->Draw("E1");       // Draw the ratio plot
 	// h1 settings
-	phihistoTkonlyUP->SetXTitle("#phi ");
-	phihistoTkonlyUP->SetLineColor(kBlue+1);
-	phihistoTkonlyUP->SetLineWidth(2);
+	dataTkonlyUP->SetXTitle("#phi ");
+	dataTkonlyUP->SetLineColor(kBlue+1);
+	dataTkonlyUP->SetLineWidth(2);
 	// Y axis h1 plot settings
-	phihistoTkonlyUP->GetYaxis()->SetTitleSize(20);
-	phihistoTkonlyUP->GetYaxis()->SetTitleFont(43);
-	phihistoTkonlyUP->GetYaxis()->SetTitleOffset(1.55);
+	dataTkonlyUP->GetYaxis()->SetTitleSize(20);
+	dataTkonlyUP->GetYaxis()->SetTitleFont(43);
+	dataTkonlyUP->GetYaxis()->SetTitleOffset(1.55);
 	// h2 settings
-	phihistoTkonlyLOW->SetLineColor(kRed);
-	phihistoTkonlyLOW->SetLineWidth(2);
+	dataTkonlyLOW->SetLineColor(kRed);
+	dataTkonlyLOW->SetLineWidth(2);
 	// Ratio plot (h1) settings
 	h1->SetTitle(""); // Remove the ratio title
 	// Y axis ratio plot settings
@@ -482,17 +641,17 @@ void phiDistri(){
 	pad2a->SetGridx();         // Vertical grid
 	pad2a->Draw();             // Draw the upper pad: pad1
 	pad2a->cd();               // pad1 becomes the current pad
-	//phihistoTpfmsUP->SetStats(0);          // No statistics on upper plot
-	phihistoTpfmsUP->Draw("E1");               // Draw h1
-	phihistoTpfmsLOW->Draw("E1 same");         // Draw h2 on top of h1
+	//dataTpfmsUP->SetStats(0);          // No statistics on upper plot
+	dataTpfmsUP->Draw("E1");               // Draw h1
+	dataTpfmsLOW->Draw("E1 same");         // Draw h2 on top of h1
 	// Do not draw the Y axis label on the upper plot and redraw a small
 	// axis instead, in order to avoid the first label (0) to be clipped.
 
 	TLegend * leg2 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg2->SetHeader("TPFMS");
 	leg2->SetFillColor(10);
-	leg2->AddEntry(phihistoTpfmsUP,"Upper leg ","l");
-	leg2->AddEntry(phihistoTpfmsLOW,"Lower leg","l");
+	leg2->AddEntry(dataTpfmsUP,"Upper leg ","l");
+	leg2->AddEntry(dataTpfmsLOW,"Lower leg","l");
 	leg2 -> Draw();
 
 
@@ -505,24 +664,24 @@ void phiDistri(){
 	pad2b->Draw();
 	pad2b->cd();       // pad2 becomes the current pad
 	// Define the ratio plot
-	TH1F *h2 = (TH1F*)phihistoTpfmsUP->Clone("h2");
+	TH1F *h2 = (TH1F*)dataTpfmsUP->Clone("h2");
 	h2->SetLineColor(kBlack);
 	h2->Sumw2();
 	h2->SetStats(0);      // No statistics on lower plot
-	h2->Divide(phihistoTpfmsUP,phihistoTpfmsLOW ,1,1,"B");
+	h2->Divide(dataTpfmsUP,dataTpfmsLOW ,1,1,"B");
 	h2->SetMarkerStyle(21);
 	h2->Draw("E1");       // Draw the ratio plot
 	// h1 settings
-	phihistoTpfmsUP->SetXTitle("#phi ");
-	phihistoTpfmsUP->SetLineColor(kBlue+1);
-	phihistoTpfmsUP->SetLineWidth(2);
+	dataTpfmsUP->SetXTitle("#phi ");
+	dataTpfmsUP->SetLineColor(kBlue+1);
+	dataTpfmsUP->SetLineWidth(2);
 	// Y axis h1 plot settings
-	phihistoTpfmsUP->GetYaxis()->SetTitleSize(20);
-	phihistoTpfmsUP->GetYaxis()->SetTitleFont(43);
-	phihistoTpfmsUP->GetYaxis()->SetTitleOffset(1.55);
+	dataTpfmsUP->GetYaxis()->SetTitleSize(20);
+	dataTpfmsUP->GetYaxis()->SetTitleFont(43);
+	dataTpfmsUP->GetYaxis()->SetTitleOffset(1.55);
 	// h2 settings
-	phihistoTpfmsLOW->SetLineColor(kRed);
-	phihistoTpfmsLOW->SetLineWidth(2);
+	dataTpfmsLOW->SetLineColor(kRed);
+	dataTpfmsLOW->SetLineWidth(2);
 	// Ratio plot (h2) settings
 	h2->SetTitle(""); // Remove the ratio title
 	// Y axis ratio plot settings
@@ -549,17 +708,17 @@ void phiDistri(){
 	pad3a->SetGridx();         // Vertical grid
 	pad3a->Draw();             // Draw the upper pad: pad1
 	pad3a->cd();               // pad1 becomes the current pad
-	//phihistoPickyUP->SetStats(0);          // No statistics on upper plot
-	phihistoPickyUP->Draw("E1");               // Draw h1
-	phihistoPickyLOW->Draw("E1 same");         // Draw h3 on top of h1
+	//dataPickyUP->SetStats(0);          // No statistics on upper plot
+	dataPickyUP->Draw("E1");               // Draw h1
+	dataPickyLOW->Draw("E1 same");         // Draw h3 on top of h1
 	// Do not draw the Y axis label on the upper plot and redraw a small
 	// axis instead, in order to avoid the first label (0) to be clipped.
 
 	TLegend * leg3 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg3->SetHeader("Picky fit");
 	leg3->SetFillColor(10);
-	leg3->AddEntry(phihistoPickyUP,"Upper leg ","l");
-	leg3->AddEntry(phihistoPickyLOW,"Lower leg","l");
+	leg3->AddEntry(dataPickyUP,"Upper leg ","l");
+	leg3->AddEntry(dataPickyLOW,"Lower leg","l");
 	leg3 -> Draw();
 
 
@@ -572,24 +731,24 @@ void phiDistri(){
 	pad3b->Draw();
 	pad3b->cd();       // pad2 becomes the current pad
 	// Define the ratio plot
-	TH1F *h3 = (TH1F*)phihistoPickyUP->Clone("h3");
+	TH1F *h3 = (TH1F*)dataPickyUP->Clone("h3");
 	h3->SetLineColor(kBlack);
 	h3->Sumw2();
 	h3->SetStats(0);      // No statistics on lower plot
-	h3->Divide(phihistoPickyUP,phihistoPickyLOW ,1,1,"B");
+	h3->Divide(dataPickyUP,dataPickyLOW ,1,1,"B");
 	h3->SetMarkerStyle(21);
 	h3->Draw("E1");       // Draw the ratio plot
 	// h1 settings
-	phihistoPickyUP->SetXTitle("#phi ");
-	phihistoPickyUP->SetLineColor(kBlue+1);
-	phihistoPickyUP->SetLineWidth(2);
+	dataPickyUP->SetXTitle("#phi ");
+	dataPickyUP->SetLineColor(kBlue+1);
+	dataPickyUP->SetLineWidth(2);
 	// Y axis h1 plot settings
-	phihistoPickyUP->GetYaxis()->SetTitleSize(20);
-	phihistoPickyUP->GetYaxis()->SetTitleFont(43);
-	phihistoPickyUP->GetYaxis()->SetTitleOffset(1.55);
+	dataPickyUP->GetYaxis()->SetTitleSize(20);
+	dataPickyUP->GetYaxis()->SetTitleFont(43);
+	dataPickyUP->GetYaxis()->SetTitleOffset(1.55);
 	// h3 settings
-	phihistoPickyLOW->SetLineColor(kRed);
-	phihistoPickyLOW->SetLineWidth(2);
+	dataPickyLOW->SetLineColor(kRed);
+	dataPickyLOW->SetLineWidth(2);
 	// Ratio plot (h3) settings
 	h3->SetTitle(""); // Remove the ratio title
 	// Y axis ratio plot settings
@@ -616,17 +775,17 @@ void phiDistri(){
 	pad4a->SetGridx();         // Vertical grid
 	pad4a->Draw();             // Draw the upper pad: pad1
 	pad4a->cd();               // pad1 becomes the current pad
-	//phihistoDYTUP->SetStats(0);          // No statistics on upper plot
-	phihistoDYTUP->Draw("E1");               // Draw h1
-	phihistoDYTLOW->Draw("E1 same");         // Draw h4 on top of h1
+	//dataDYTUP->SetStats(0);          // No statistics on upper plot
+	dataDYTUP->Draw("E1");               // Draw h1
+	dataDYTLOW->Draw("E1 same");         // Draw h4 on top of h1
 	// Do not draw the Y axis label on the upper plot and redraw a small
 	// axis instead, in order to avoid the first label (0) to be clipped.
 
 	TLegend * leg4 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg4->SetHeader("DYT");
 	leg4->SetFillColor(10);
-	leg4->AddEntry(phihistoDYTUP,"Upper leg ","l");
-	leg4->AddEntry(phihistoDYTLOW,"Lower leg","l");
+	leg4->AddEntry(dataDYTUP,"Upper leg ","l");
+	leg4->AddEntry(dataDYTLOW,"Lower leg","l");
 	leg4 -> Draw();
 
 
@@ -639,24 +798,24 @@ void phiDistri(){
 	pad4b->Draw();
 	pad4b->cd();       // pad2 becomes the current pad
 	// Define the ratio plot
-	TH1F *h4 = (TH1F*)phihistoDYTUP->Clone("h4");
+	TH1F *h4 = (TH1F*)dataDYTUP->Clone("h4");
 	h4->SetLineColor(kBlack);
 	h4->Sumw2();
 	h4->SetStats(0);      // No statistics on lower plot
-	h4->Divide(phihistoDYTUP,phihistoDYTLOW ,1,1,"B");
+	h4->Divide(dataDYTUP,dataDYTLOW ,1,1,"B");
 	h4->SetMarkerStyle(21);
 	h4->Draw("E1");       // Draw the ratio plot
 	// h1 settings
-	phihistoDYTUP->SetXTitle("#phi ");
-	phihistoDYTUP->SetLineColor(kBlue+1);
-	phihistoDYTUP->SetLineWidth(2);
+	dataDYTUP->SetXTitle("#phi ");
+	dataDYTUP->SetLineColor(kBlue+1);
+	dataDYTUP->SetLineWidth(2);
 	// Y axis h1 plot settings
-	phihistoDYTUP->GetYaxis()->SetTitleSize(20);
-	phihistoDYTUP->GetYaxis()->SetTitleFont(43);
-	phihistoDYTUP->GetYaxis()->SetTitleOffset(1.55);
+	dataDYTUP->GetYaxis()->SetTitleSize(20);
+	dataDYTUP->GetYaxis()->SetTitleFont(43);
+	dataDYTUP->GetYaxis()->SetTitleOffset(1.55);
 	// h4 settings
-	phihistoDYTLOW->SetLineColor(kRed);
-	phihistoDYTLOW->SetLineWidth(2);
+	dataDYTLOW->SetLineColor(kRed);
+	dataDYTLOW->SetLineWidth(2);
 	// Ratio plot (h4) settings
 	h4->SetTitle(""); // Remove the ratio title
 	// Y axis ratio plot settings
@@ -683,17 +842,17 @@ void phiDistri(){
 	pad5a->SetGridx();         // Vertical grid
 	pad5a->Draw();             // Draw the upper pad: pad1
 	pad5a->cd();               // pad1 becomes the current pad
-	//phihistoTunePUP->SetStats(0);          // No statistics on upper plot
-	phihistoTunePUP->Draw("E1");               // Draw h1
-	phihistoTunePLOW->Draw("E1 same");         // Draw h5 on top of h1
+	//dataTunePUP->SetStats(0);          // No statistics on upper plot
+	dataTunePUP->Draw("E1");               // Draw h1
+	dataTunePLOW->Draw("E1 same");         // Draw h5 on top of h1
 	// Do not draw the Y axis label on the upper plot and redraw a small
 	// axis instead, in order to avoid the first label (0) to be clipped.
 
 	TLegend * leg5 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg5->SetHeader("TuneP");
 	leg5->SetFillColor(10);
-	leg5->AddEntry(phihistoTunePUP,"Upper leg ","l");
-	leg5->AddEntry(phihistoTunePLOW,"Lower leg","l");
+	leg5->AddEntry(dataTunePUP,"Upper leg ","l");
+	leg5->AddEntry(dataTunePLOW,"Lower leg","l");
 	leg5 -> Draw();
 
 
@@ -706,24 +865,24 @@ void phiDistri(){
 	pad5b->Draw();
 	pad5b->cd();       // pad2 becomes the current pad
 	// Define the ratio plot
-	TH1F *h5 = (TH1F*)phihistoTunePUP->Clone("h5");
+	TH1F *h5 = (TH1F*)dataTunePUP->Clone("h5");
 	h5->SetLineColor(kBlack);
 	h5->Sumw2();
 	h5->SetStats(0);      // No statistics on lower plot
-	h5->Divide(phihistoTunePUP,phihistoTunePLOW ,1,1,"B");
+	h5->Divide(dataTunePUP,dataTunePLOW ,1,1,"B");
 	h5->SetMarkerStyle(21);
 	h5->Draw("E1");       // Draw the ratio plot
 	// h1 settings
-	phihistoTunePUP->SetXTitle("#phi ");
-	phihistoTunePUP->SetLineColor(kBlue+1);
-	phihistoTunePUP->SetLineWidth(2);
+	dataTunePUP->SetXTitle("#phi ");
+	dataTunePUP->SetLineColor(kBlue+1);
+	dataTunePUP->SetLineWidth(2);
 	// Y axis h1 plot settings
-	phihistoTunePUP->GetYaxis()->SetTitleSize(20);
-	phihistoTunePUP->GetYaxis()->SetTitleFont(43);
-	phihistoTunePUP->GetYaxis()->SetTitleOffset(1.55);
+	dataTunePUP->GetYaxis()->SetTitleSize(20);
+	dataTunePUP->GetYaxis()->SetTitleFont(43);
+	dataTunePUP->GetYaxis()->SetTitleOffset(1.55);
 	// h5 settings
-	phihistoTunePLOW->SetLineColor(kRed);
-	phihistoTunePLOW->SetLineWidth(2);
+	dataTunePLOW->SetLineColor(kRed);
+	dataTunePLOW->SetLineWidth(2);
 	// Ratio plot (h5) settings
 	h5->SetTitle(""); // Remove the ratio title
 	// Y axis ratio plot settings
@@ -747,8 +906,8 @@ void phiDistri(){
 
 		/*TFile *fout = new TFile("testphi.root ","RECREATE");
 
-		  phihistoGlb->Write();
-		  phihistoStalone->Write();
+		  dataGlb->Write();
+		  dataStalone->Write();
 
 		  fout->Close();*/
 
