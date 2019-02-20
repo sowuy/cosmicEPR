@@ -49,19 +49,19 @@ void phiDistri(string var=""){
 	string titleX="";
 	string titleLegend="";
 	//phi
-/*	float binMin =-3;
+	/*float binMin =-3;
 	float binMax =0;
-	int binnum = 15;*/
+	int binnum = 15;
 
 	//eta 
-	/*float binMin =-3;
+	float binMin =-3;
 	float binMax =3;
 	int binnum = 20;*/
 	
 	//pt 
 
-	float bins[]={50,100,200,300,400,600,2000};
-	int binnum = 6;
+	float bins[]={10,100,200,300,400,500,700,2000};
+	int binnum = 7;
 	//Declaration of histogramm i plan to plot with this code	
 	if (var == "pT"){
 		titleX = string("p_{t} [GeV]-TuneP") ;
@@ -97,7 +97,7 @@ void phiDistri(string var=""){
 	TH1F *dataTunePUP =new TH1F("dataTuneP","",binnum,bins);
 	TH1F *dataTunePLOW =new TH1F("dataTunePLOW","",binnum,bins);
 
-	//MC TH1F
+	//MC10 TH1F
 	TH1F *MCGlbUP =new TH1F("MCGlb","",binnum,bins);
 	TH1F *MCGlbLOW =new TH1F("MCGlbLOW","",binnum,bins);
 
@@ -115,10 +115,53 @@ void phiDistri(string var=""){
 
 	TH1F *MCTunePUP =new TH1F("MCTuneP","",binnum,bins);
 	TH1F *MCTunePLOW =new TH1F("MCTunePLOW","",binnum,bins);
+
+	//MC100 TH1F
+	TH1F *MC100GlbUP =new TH1F("MC100Glb","",binnum,bins);
+	TH1F *MC100GlbLOW =new TH1F("MC100GlbLOW","",binnum,bins);
+
+	TH1F *MC100TkonlyUP =new TH1F("MC100Tkonly","",binnum,bins);
+	TH1F *MC100TkonlyLOW =new TH1F("MC100TkonlyLOW","",binnum,bins);
+
+	TH1F *MC100TpfmsUP =new TH1F("MC100Tpfms","",binnum,bins);
+	TH1F *MC100TpfmsLOW =new TH1F("MC100TpfmsLOW","",binnum,bins);
+
+	TH1F *MC100PickyUP =new TH1F("MC100Picky","",binnum,bins);
+	TH1F *MC100PickyLOW =new TH1F("MC100PickyLOW","",binnum,bins);
+
+	TH1F *MC100DYTUP =new TH1F("MC100DYT","",binnum,bins);
+	TH1F *MC100DYTLOW =new TH1F("MC100DYTLOW","",binnum,bins);
+
+	TH1F *MC100TunePUP =new TH1F("MC100TuneP","",binnum,bins);
+	TH1F *MC100TunePLOW =new TH1F("MC100TunePLOW","",binnum,bins);
+
+
+	//MC00 TH1F
+	TH1F *MC500GlbUP =new TH1F("MC500Glb","",binnum,bins);
+	TH1F *MC500GlbLOW =new TH1F("MC500GlbLOW","",binnum,bins);
+
+	TH1F *MC500TkonlyUP =new TH1F("MC500Tkonly","",binnum,bins);
+	TH1F *MC500TkonlyLOW =new TH1F("MC500TkonlyLOW","",binnum,bins);
+
+	TH1F *MC500TpfmsUP =new TH1F("MC500Tpfms","",binnum,bins);
+	TH1F *MC500TpfmsLOW =new TH1F("MC500TpfmsLOW","",binnum,bins);
+
+	TH1F *MC500PickyUP =new TH1F("MC500Picky","",binnum,bins);
+	TH1F *MC500PickyLOW =new TH1F("MC500PickyLOW","",binnum,bins);
+
+	TH1F *MC500DYTUP =new TH1F("MC500DYT","",binnum,bins);
+	TH1F *MC500DYTLOW =new TH1F("MC500DYTLOW","",binnum,bins);
+
+	TH1F *MC500TunePUP =new TH1F("MC500TuneP","",binnum,bins);
+	TH1F *MC500TunePLOW =new TH1F("MC500TunePLOW","",binnum,bins);
+
+
 	// the next line is to link the tree you have
 
 	TChain *treedata = new TChain("UTpickedTracks/t");
 	TChain *treeMC = new TChain("UTpickedTracks/t");
+	TChain *treeMC100 = new TChain("UTpickedTracks/t");
+	TChain *treeMC500 = new TChain("UTpickedTracks/t");
 
 
 	// this is the root file you have input with your tree inside
@@ -126,10 +169,10 @@ void phiDistri(string var=""){
 	treedata->Add("ROOT_Files/cosmic_data_2016_2017/cosmic_data_16_17.root");
 	//treedata->Add ("ROOT_Files/resolution_cosmics.root");
 	//treeMC->Add ("ROOT_Files/resolution_cosmics.root");
-	treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
-	//treeMC->Add("ROOT_Files/MC2016/MC_P10.root");
-	//treeMC->Add("ROOT_Files/MC2016/MC_2016_P100.root");
-	//treeMC->Add("ROOT_Files/MC2016/MC_2016_P500.root");
+	//treeMC->Add("ROOT_Files/MC2016/cosmic_MC_2016.root");
+	treeMC->Add("ROOT_Files/MC2016/MC_P10.root");
+	treeMC100->Add("ROOT_Files/MC2016/MC_2016_P100.root");
+	treeMC500->Add("ROOT_Files/MC2016/MC_2016_P500.root");
 
 	// the following lines are to extract the branch of the trees, when there is a & it means that there is only one entry per event, like for run, lumi, event, dilephion mass in my case for DY events.
 	treedata->SetBranchAddress("unprop_phi",unprop_phi);
@@ -144,11 +187,25 @@ void phiDistri(string var=""){
 	treeMC->SetBranchAddress("strip_layers",strip_layers);
 	treeMC->SetBranchAddress("unprop_theta",unprop_theta);
 	treeMC->SetBranchAddress("unprop_phi",unprop_phi);
+	treeMC100->SetBranchAddress("unprop_charge",unprop_charge);
+	treeMC100->SetBranchAddress("unprop_pt",unprop_pt);
+	treeMC100->SetBranchAddress("pixel_hits",pixel_hits);
+	treeMC100->SetBranchAddress("strip_layers",strip_layers);
+	treeMC100->SetBranchAddress("unprop_theta",unprop_theta);
+	treeMC100->SetBranchAddress("unprop_phi",unprop_phi);
+	treeMC500->SetBranchAddress("unprop_charge",unprop_charge);
+	treeMC500->SetBranchAddress("unprop_pt",unprop_pt);
+	treeMC500->SetBranchAddress("pixel_hits",pixel_hits);
+	treeMC500->SetBranchAddress("strip_layers",strip_layers);
+	treeMC500->SetBranchAddress("unprop_theta",unprop_theta);
+	treeMC500->SetBranchAddress("unprop_phi",unprop_phi);
 
 	// This will get the numbers of entries of the tree.
 
 	Long64_t nentries = treedata->GetEntries();
 	Long64_t nentriesMC = treeMC->GetEntries();
+	Long64_t nentriesMC100 = treeMC->GetEntries();
+	Long64_t nentriesMC500 = treeMC->GetEntries();
 
 	//Decalaration of variable not in the tree that i use for the results
 
@@ -167,7 +224,7 @@ void phiDistri(string var=""){
 		if (pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
 
 			//Pt Bin
-			//if (unprop_pt[8][1]>10 && unprop_pt[8][1]<100){
+			/*if (unprop_pt[8][1]>500 && unprop_pt[8][1]<500){*/
 				
 				/////////////Pt////////////////////
 
@@ -264,10 +321,9 @@ void phiDistri(string var=""){
 
 			}// end loop p
 
-		//}	
+	//	}	
 	}
-cout << "good Muons = " <<goodMuon << endl;
-	//MC
+	//MC 10
 	for ( int p=0; p<nentriesMC ;p++){
 		// this loop over all the events in your tree
 
@@ -367,7 +423,207 @@ cout << "good Muons = " <<goodMuon << endl;
 		}// end loop p
 
 	}
+//MC 100
+	for ( int p=0; p<nentriesMC100 ;p++){
+		// this loop over all the events in your tree
 
+		treeMC100->GetEntry(p);
+		//apply some quality cuts to select the entries that we think are interesting
+		//selection cuts
+
+		if (pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
+
+			/////////////Pt////////////////////
+
+			if (var == "pT"){
+
+				//Algorithm choice
+
+
+				//global
+				MC100GlbUP->Fill(unprop_pt[0][0]);
+				MC100GlbLOW->Fill(unprop_pt[0][1]);
+				//Tkonly
+				MC100TkonlyUP->Fill(unprop_pt[2][0]);
+				MC100TkonlyLOW->Fill(unprop_pt[2][1]);
+				//Tpfms
+				MC100TpfmsUP->Fill(unprop_pt[3][0]);
+				MC100TpfmsLOW->Fill(unprop_pt[3][1]);
+				//Picky
+				MC100PickyUP->Fill(unprop_pt[4][0]);
+				MC100PickyLOW->Fill(unprop_pt[4][1]);
+				//DYT
+				MC100DYTUP->Fill(unprop_pt[5][0]);
+				MC100DYTLOW->Fill(unprop_pt[5][1]);
+				//TuneP
+				MC100TunePUP->Fill(unprop_pt[8][0]);
+				MC100TunePLOW->Fill(unprop_pt[8][1]);
+			}
+			
+			/////////////ETA////////////////////
+
+			else if (var == "eta"){
+				
+				for (int i=0;i<n_tracks;i++){
+					for (int j=0;j<n_track_pos;j++){
+						eta[i][j]=  - log(tan(unprop_theta[i][j]/2)); 
+					}
+				}
+
+				//Algorithm choice
+
+
+				//global
+				MC100GlbUP->Fill(eta[0][0]);
+				MC100GlbLOW->Fill(eta[0][1]);
+				//Tkonly
+				MC100TkonlyUP->Fill(eta[2][0]);
+				MC100TkonlyLOW->Fill(eta[2][1]);
+				//Tpfms
+				MC100TpfmsUP->Fill(eta[3][0]);
+				MC100TpfmsLOW->Fill(eta[3][1]);
+				//Picky
+				MC100PickyUP->Fill(eta[4][0]);
+				MC100PickyLOW->Fill(eta[4][1]);
+				//DYT
+				MC100DYTUP->Fill(eta[5][0]);
+				MC100DYTLOW->Fill(eta[5][1]);
+				//TuneP
+				MC100TunePUP->Fill(eta[8][0]);
+				MC100TunePLOW->Fill(eta[8][1]);
+			}
+
+			/////////////PHI////////////////////
+
+			else {
+
+				//Algorithm choice
+
+
+				//global
+				MC100GlbUP->Fill(unprop_phi[0][0]);
+				MC100GlbLOW->Fill(unprop_phi[0][1]);
+				//Tkonly
+				MC100TkonlyUP->Fill(unprop_phi[2][0]);
+				MC100TkonlyLOW->Fill(unprop_phi[2][1]);
+				//Tpfms
+				MC100TpfmsUP->Fill(unprop_phi[3][0]);
+				MC100TpfmsLOW->Fill(unprop_phi[3][1]);
+				//Picky
+				MC100PickyUP->Fill(unprop_phi[4][0]);
+				MC100PickyLOW->Fill(unprop_phi[4][1]);
+				//DYT
+				MC100DYTUP->Fill(unprop_phi[5][0]);
+				MC100DYTLOW->Fill(unprop_phi[5][1]);
+				//TuneP
+				MC100TunePUP->Fill(unprop_phi[8][0]);
+				MC100TunePLOW->Fill(unprop_phi[8][1]);
+			}
+
+		}// end loop p
+
+	}
+
+//MC 500
+	for ( int p=0; p<nentriesMC500 ;p++){
+		// this loop over all the events in your tree
+
+		treeMC500->GetEntry(p);
+		//apply some quality cuts to select the entries that we think are interesting
+		//selection cuts
+
+		if (pixel_hits[8][0]>=1 && strip_layers[8][0]>=5 && pixel_hits[8][1]>=1 && strip_layers[8][1]>=5 && unprop_pt[8][1]>30.){
+
+			/////////////Pt////////////////////
+
+			if (var == "pT"){
+
+				//Algorithm choice
+
+
+				//global
+				MC500GlbUP->Fill(unprop_pt[0][0]);
+				MC500GlbLOW->Fill(unprop_pt[0][1]);
+				//Tkonly
+				MC500TkonlyUP->Fill(unprop_pt[2][0]);
+				MC500TkonlyLOW->Fill(unprop_pt[2][1]);
+				//Tpfms
+				MC500TpfmsUP->Fill(unprop_pt[3][0]);
+				MC500TpfmsLOW->Fill(unprop_pt[3][1]);
+				//Picky
+				MC500PickyUP->Fill(unprop_pt[4][0]);
+				MC500PickyLOW->Fill(unprop_pt[4][1]);
+				//DYT
+				MC500DYTUP->Fill(unprop_pt[5][0]);
+				MC500DYTLOW->Fill(unprop_pt[5][1]);
+				//TuneP
+				MC500TunePUP->Fill(unprop_pt[8][0]);
+				MC500TunePLOW->Fill(unprop_pt[8][1]);
+			}
+			
+			/////////////ETA////////////////////
+
+			else if (var == "eta"){
+				
+				for (int i=0;i<n_tracks;i++){
+					for (int j=0;j<n_track_pos;j++){
+						eta[i][j]=  - log(tan(unprop_theta[i][j]/2)); 
+					}
+				}
+
+				//Algorithm choice
+
+
+				//global
+				MC500GlbUP->Fill(eta[0][0]);
+				MC500GlbLOW->Fill(eta[0][1]);
+				//Tkonly
+				MC500TkonlyUP->Fill(eta[2][0]);
+				MC500TkonlyLOW->Fill(eta[2][1]);
+				//Tpfms
+				MC500TpfmsUP->Fill(eta[3][0]);
+				MC500TpfmsLOW->Fill(eta[3][1]);
+				//Picky
+				MC500PickyUP->Fill(eta[4][0]);
+				MC500PickyLOW->Fill(eta[4][1]);
+				//DYT
+				MC500DYTUP->Fill(eta[5][0]);
+				MC500DYTLOW->Fill(eta[5][1]);
+				//TuneP
+				MC500TunePUP->Fill(eta[8][0]);
+				MC500TunePLOW->Fill(eta[8][1]);
+			}
+
+			/////////////PHI////////////////////
+
+			else {
+
+				//Algorithm choice
+
+
+				//global
+				MC500GlbUP->Fill(unprop_phi[0][0]);
+				MC500GlbLOW->Fill(unprop_phi[0][1]);
+				//Tkonly
+				MC500TkonlyUP->Fill(unprop_phi[2][0]);
+				MC500TkonlyLOW->Fill(unprop_phi[2][1]);
+				//Tpfms
+				MC500TpfmsUP->Fill(unprop_phi[3][0]);
+				MC500TpfmsLOW->Fill(unprop_phi[3][1]);
+				//Picky
+				MC500PickyUP->Fill(unprop_phi[4][0]);
+				MC500PickyLOW->Fill(unprop_phi[4][1]);
+				//DYT
+				MC500DYTUP->Fill(unprop_phi[5][0]);
+				MC500DYTLOW->Fill(unprop_phi[5][1]);
+				//TuneP
+				MC500TunePUP->Fill(unprop_phi[8][0]);
+				MC500TunePLOW->Fill(unprop_phi[8][1]);
+			}
+
+		}// end loop p
+
+	}
 
 	Double_t norm = 1;
 	//Define the Canvas
@@ -381,29 +637,116 @@ cout << "good Muons = " <<goodMuon << endl;
 	pad5a->cd();               // pad1 becomes the current pad
 	dataTunePUP->SetStats(111);          // No statistics on upper plot
 
-	//renormalize histograms :
+	
+
+
+	//weighting of MC
+	//UP
+	TAxis *axis =MCTunePUP->GetXaxis();
+  	int bmin1 = axis->FindBin(100); //in your case xmin=-1.5
+  	int bmax1 = axis->FindBin(2000); //in your case xmax=0.8	
+
+	double num100 = MCTunePUP->Integral(bmin1,bmax1);
+	double den100 = MC100TunePUP->Integral();
+	cout << "den=" << den100 << "   " << "num=" << num100 << endl;
+	double scale100 = num100/den100;
+	cout << "ratio=" << scale100 << endl;
+	MC100TunePUP->Scale(scale100);
+	
+  	int bmin2 = axis->FindBin(500); //in your case xmin=-1.5
+  	int bmax2 = axis->FindBin(2000); //in your case xmax=0.8	
+	double num500 = MCTunePUP->Integral(bmin2,bmax2);
+	double den500 = MC500TunePUP->Integral();
+	cout << "den2=" << den500 << "   " << "num2=" << num500 << endl;
+
+	double scale500 = num500/den500;
+	cout << "ratio2=" << scale500 << endl;
+
+	MC500TunePUP->Scale(scale500);
+	
+
+
+	//Set bin content of MC10, MC100 and MC500
+	
+	int n1 = 2;
+	int n2 = 6;	
+	TH1F *MCtotUP = (TH1F*)MCTunePUP->Clone();
+	MCtotUP->Reset("ICES,M");
+	for (int i=1;i<n1;i++){
+	MCtotUP->SetBinContent(i,MCTunePUP->GetBinContent(i));
+		MCtotUP->SetBinError(i,MCTunePUP->GetBinError(i));
+	}
+	for (int i=n1;i<n2;i++){
+		MCtotUP->SetBinContent(i,MC100TunePUP->GetBinContent(i));
+		MCtotUP->SetBinError(i,MC100TunePUP->GetBinError(i));
+	}
+	for (int i=n2;i<8;i++){
+		MCtotUP->SetBinContent(i,MC100TunePUP->GetBinContent(i));
+		MCtotUP->SetBinError(i,MC100TunePUP->GetBinError(i));
+	}
+
+	//LOW
+	TAxis *axisLOW =MCTunePLOW->GetXaxis();
+  	int bmin1LOW = axisLOW->FindBin(100); //in your case xmin=-1.5
+  	int bmax1LOW = axisLOW->FindBin(2000); //in your case xmax=0.8	
+
+	double num100LOW = MCTunePLOW->Integral(bmin1LOW,bmax1LOW);
+	double den100LOW = MC100TunePLOW->Integral();
+	double scale100LOW = num100LOW/den100LOW;
+	MC100TunePLOW->Scale(scale100LOW);
+	
+  	int bmin2LOW = axisLOW->FindBin(500); //in your case xmin=-1.5
+  	int bmax2LOW = axisLOW->FindBin(2000); //in your case xmax=0.8	
+	double num500LOW = MCTunePLOW->Integral(bmin2LOW,bmax2LOW);
+	double den500LOW = MC500TunePLOW->Integral();
+	double scale500LOW = num500LOW/den500LOW;
+
+	MC500TunePLOW->Scale(scale500LOW);
+	
+
+
+	//Set bin content of MC10, MC100 and MC500
+	
+	TH1F *MCtotLOW = (TH1F*)MCTunePLOW->Clone();
+	MCtotLOW->Reset("ICES,M");
+	for (int i=1;i<n1;i++){
+	MCtotLOW->SetBinContent(i,MCTunePLOW->GetBinContent(i));
+		MCtotLOW->SetBinError(i,MCTunePLOW->GetBinError(i));
+	}
+	for (int i=n1;i<n2;i++){
+		MCtotLOW->SetBinContent(i,MC100TunePLOW->GetBinContent(i));
+		MCtotLOW->SetBinError(i,MC100TunePLOW->GetBinError(i));
+	}
+	for (int i=n2;i<8;i++){
+		MCtotLOW->SetBinContent(i,MC100TunePLOW->GetBinContent(i));
+		MCtotLOW->SetBinError(i,MC100TunePLOW->GetBinError(i));
+	}
+
+
+	//renormalize histograms 
+	//DATA :
 	dataTunePUP->Sumw2();
 	dataTunePUP->Scale(norm/dataTunePUP->Integral(), "width");
 	dataTunePLOW->Sumw2();
 	dataTunePLOW->Scale(norm/dataTunePLOW->Integral(), "width");
-	MCTunePUP->Sumw2();
-	MCTunePUP->Scale(norm/MCTunePUP->Integral(), "width");
-	MCTunePLOW->Sumw2();
-	MCTunePLOW->Scale(norm/MCTunePLOW->Integral(), "width");
 
-	// h1 settings
+	//MC
+	MCtotUP->Sumw2();
+	MCtotUP->Scale(norm/MCtotUP->Integral(), "width");
+	MCtotLOW->Sumw2();
+	MCtotLOW->Scale(norm/MCtotLOW->Integral(), "width");
+
 	dataTunePUP->SetXTitle(titleX.c_str());
 	dataTunePUP->SetLineColor(kBlue);
 	dataTunePUP->SetLineWidth(2);
 	dataTunePUP->GetXaxis()->SetTitleSize(0.05);
 	//dataTunePUP->GetYaxis()->SetRangeUser(0,1.5);
-
 	dataTunePUP->SetMarkerColor(kBlue);
 	dataTunePUP->SetMarkerStyle(20);
-	MCTunePUP->SetLineColor(kBlue-9);
-	MCTunePUP->SetLineWidth(2);
-	MCTunePUP->SetMarkerColor(kBlue-9);
-	MCTunePUP->SetMarkerStyle(24);
+	MCtotUP->SetLineColor(kBlue-9);
+	MCtotUP->SetLineWidth(2);
+	MCtotUP->SetMarkerColor(kBlue-9);
+	MCtotUP->SetMarkerStyle(24);
 
 	// Y axis h1 plot settings
 	dataTunePUP->GetYaxis()->SetTitleSize(20);
@@ -414,28 +757,31 @@ cout << "good Muons = " <<goodMuon << endl;
 	dataTunePLOW->SetLineWidth(2);
 	dataTunePLOW->SetMarkerColor(kRed);
 	dataTunePLOW->SetMarkerStyle(20);
-	MCTunePLOW->SetLineColor(kRed-9);
-	MCTunePLOW->SetLineWidth(2);
-	MCTunePLOW->SetMarkerColor(kRed-9);
-	MCTunePLOW->SetMarkerStyle(24);
+	MCtotLOW->SetLineColor(kRed-9);
+	MCtotLOW->SetLineWidth(2);
+	MCtotLOW->SetMarkerColor(kRed-9);
+	MCtotLOW->SetMarkerStyle(24);
 
 	//DRAW
 	dataTunePUP->Draw("E1");               
 	dataTunePLOW->Draw("E1 same");        
-	MCTunePUP->Draw("E1 same");      
-	MCTunePLOW->Draw("E1 same");
+	MCtotUP->Draw("E1 same");      
+	MCtotLOW->Draw("E1 same");
+	
+
+
 	//LEGEND
 	TLegend * leg5 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg5->SetHeader("TuneP-2016+2017 data");
 	leg5->SetFillColor(10);
-	leg5->AddEntry(dataTunePUP,"Upper leg ","l");
-	leg5->AddEntry(dataTunePLOW,"Lower leg","l");
+	leg5->AddEntry(dataTunePUP,"Upper leg ");
+	leg5->AddEntry(dataTunePLOW,"Lower leg");
 	leg5 -> Draw();
 	TLegend * legMC = new TLegend(0.6, 0.43, 0.98, 0.6);
-	legMC->SetHeader("TuneP-MC 2016");
+	legMC->SetHeader("TuneP-MC 2016 combined");
 	legMC->SetFillColor(10);
-	legMC->AddEntry(MCTunePUP,"Upper leg ","l");
-	legMC->AddEntry(MCTunePLOW,"Lower leg","l");
+	legMC->AddEntry(MCtotUP,"Upper leg ");
+	legMC->AddEntry(MCtotLOW,"Lower leg");
 	legMC -> Draw();
 
 
@@ -453,7 +799,7 @@ cout << "good Muons = " <<goodMuon << endl;
 	h5->SetLineColor(kBlack);
 	h5->Sumw2();
 	h5->SetStats(0);      // No statistics on lower plot
-	h5->Divide(dataTunePUP,MCTunePUP ,1,1,"B");
+	h5->Divide(dataTunePUP,MCtotUP ,1,1,"B");
 	h5->SetMarkerStyle(21);
 	h5->SetMarkerColor(kBlue);
 	h5->SetLineColor(kBlue);
@@ -464,7 +810,7 @@ cout << "good Muons = " <<goodMuon << endl;
 	h5LOW->SetLineColor(kBlack);
 	h5LOW->Sumw2();
 	h5LOW->SetStats(0);      // No statistics on lower plot
-	h5LOW->Divide(dataTunePLOW,MCTunePUP ,1,1,"B");
+	h5LOW->Divide(dataTunePLOW,MCtotLOW ,1,1,"B");
 	h5LOW->SetMarkerStyle(21);
 	h5LOW->SetMarkerColor(kRed);
 	h5LOW->SetLineColor(kRed);
@@ -487,7 +833,7 @@ cout << "good Muons = " <<goodMuon << endl;
 	h5->GetXaxis()->SetTitle("");
 
 	h5->SetStats(0);      // No statistics on lower plot
-	h5->GetYaxis()->SetRangeUser(-2,2);
+	//h5->GetYaxis()->SetRangeUser(-2,2);
 
 
 
@@ -515,8 +861,8 @@ cout << "good Muons = " <<goodMuon << endl;
 	TLegend * leg0 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg0->SetHeader("Global fit");
 	leg0->SetFillColor(10);
-	leg0->AddEntry(dataGlbUP,"Upper leg ","l");
-	leg0->AddEntry(dataGlbLOW,"Lower leg","l");
+	leg0->AddEntry(dataGlbUP,"Upper leg ");
+	leg0->AddEntry(dataGlbLOW,"Lower leg");
 	leg0 -> Draw();
 
 
@@ -583,8 +929,8 @@ cout << "good Muons = " <<goodMuon << endl;
 	TLegend * leg1 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg1->SetHeader("Tkonly");
 	leg1->SetFillColor(10);
-	leg1->AddEntry(dataTkonlyUP,"Upper leg ","l");
-	leg1->AddEntry(dataTkonlyLOW,"Lower leg","l");
+	leg1->AddEntry(dataTkonlyUP,"Upper leg ");
+	leg1->AddEntry(dataTkonlyLOW,"Lower leg");
 	leg1 -> Draw();
 
 
@@ -650,8 +996,8 @@ cout << "good Muons = " <<goodMuon << endl;
 	TLegend * leg2 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg2->SetHeader("TPFMS");
 	leg2->SetFillColor(10);
-	leg2->AddEntry(dataTpfmsUP,"Upper leg ","l");
-	leg2->AddEntry(dataTpfmsLOW,"Lower leg","l");
+	leg2->AddEntry(dataTpfmsUP,"Upper leg ");
+	leg2->AddEntry(dataTpfmsLOW,"Lower leg");
 	leg2 -> Draw();
 
 
@@ -717,8 +1063,8 @@ cout << "good Muons = " <<goodMuon << endl;
 	TLegend * leg3 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg3->SetHeader("Picky fit");
 	leg3->SetFillColor(10);
-	leg3->AddEntry(dataPickyUP,"Upper leg ","l");
-	leg3->AddEntry(dataPickyLOW,"Lower leg","l");
+	leg3->AddEntry(dataPickyUP,"Upper leg ");
+	leg3->AddEntry(dataPickyLOW,"Lower leg");
 	leg3 -> Draw();
 
 
@@ -784,8 +1130,8 @@ cout << "good Muons = " <<goodMuon << endl;
 	TLegend * leg4 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg4->SetHeader("DYT");
 	leg4->SetFillColor(10);
-	leg4->AddEntry(dataDYTUP,"Upper leg ","l");
-	leg4->AddEntry(dataDYTLOW,"Lower leg","l");
+	leg4->AddEntry(dataDYTUP,"Upper leg ");
+	leg4->AddEntry(dataDYTLOW,"Lower leg");
 	leg4 -> Draw();
 
 
@@ -851,8 +1197,8 @@ cout << "good Muons = " <<goodMuon << endl;
 	TLegend * leg5 = new TLegend(0.6, 0.60, 0.98, 0.77);
 	leg5->SetHeader("TuneP");
 	leg5->SetFillColor(10);
-	leg5->AddEntry(dataTunePUP,"Upper leg ","l");
-	leg5->AddEntry(dataTunePLOW,"Lower leg","l");
+	leg5->AddEntry(dataTunePUP,"Upper leg ");
+	leg5->AddEntry(dataTunePLOW,"Lower leg");
 	leg5 -> Draw();
 
 

@@ -162,7 +162,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 	int nentries = treedata->GetEntries();
 	int nentriesMC = treeMC->GetEntries();
 
-
+	int wrongCharge = 0;
 	int algoNum=0;
 
 	//string titleX = var + string(" - ")+algo+ " " + tag + string(" leg tag");
@@ -214,7 +214,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 				if (unprop_charge[0][antileg]!=unprop_charge[algoNum][leg]){ 
 					//Fill Numerateur with events with misidentified charge
 					DataGlbNum->Fill(unprop_pt[algoNum][leg]);
-				}
+									}
 				//Tkonly
 				if (unprop_charge[2][antileg]!=unprop_charge[algoNum][leg]){ 
 					DataTkonlyNum->Fill(unprop_pt[algoNum][leg]);
@@ -238,7 +238,25 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 				//TuneP
 				if (unprop_charge[8][antileg]!=unprop_charge[algoNum][leg]){ 
 					DataTunePNum->Fill(unprop_pt[algoNum][leg]);
+					cout << "pt low=" << unprop_pt[algoNum][leg]<< endl;
+					cout << "pt up=" << unprop_pt[algoNum][antileg]<< endl;
+					cout << "entry #" << p << endl;
+
+					wrongCharge+=1;
 				}
+				if (p==56897){
+					//low
+					if (unprop_charge[3][leg]==unprop_charge[4][leg] && unprop_charge[algoNum][leg] ){
+						cout << "le low a la bonne charge" << endl; 
+					
+					}
+					//up
+					if (unprop_charge[3][antileg]==unprop_charge[4][antileg] && unprop_charge[algoNum][antileg]){
+						cout << "le up a la bonne charge" << endl; 
+
+					}
+}
+
 			}
 
 			/////////////ETA////////////////////
@@ -324,7 +342,7 @@ void pTChargeMis(string var="",string algo="", string tag="", bool TunePOnly = f
 
 		} //end selection cut
 	}// end loop p
-
+cout << "wrong charge=" << wrongCharge << endl;
 	/************************************************************/
 	/*                    MC                                    */
 	/************************************************************/
